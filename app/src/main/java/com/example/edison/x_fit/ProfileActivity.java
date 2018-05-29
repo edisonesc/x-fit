@@ -1,10 +1,28 @@
 package com.example.edison.x_fit;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.bumptech.glide.Glide;
+import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.widgets.ProgressDialog;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -13,17 +31,40 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.karan.churi.PermissionManager.PermissionManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class ProfileActivity extends AppCompatActivity {
-    DatabaseReference databaseRef;
-    FirebaseAuth mAuth;
-    Calendar calendar;
-    FirebaseUser firebaseUser;
-    TextView accountUsername, accountCustomWorkouts, accountFollowers, accountFollowing, accountName;
-    TextView accountAge, accountGender, accountWeight, accountHeight;
-    ImageView userProfilePicture, accountGenderIcon;
+    private DatabaseReference databaseRef;
+    private FirebaseAuth mAuth;
+    private String currentUserUid;
+    private FirebaseUser firebaseUser;
+    private TextView accountUsername, accountCustomWorkouts, accountFollowers, accountFollowing, accountName;
+    private TextView accountAge, accountGender, accountWeight, accountHeight;
+    private ImageView userProfilePicture, accountGenderIcon;
+    private ButtonFloat setNewProfile;
+    private Uri resultUri;
+    private StorageReference mStorage;
+    private MaterialDialog materialDialog;
+    private ProgressDialog dialog;
+    private String profileImageUrl;
+    PermissionManager permissionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +72,8 @@ public class ProfileActivity extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
-
-
+        mStorage = FirebaseStorage.getInstance().getReference();
+        setNewProfile = findViewById(R.id.buttonFloat);
         accountUsername = findViewById(R.id.accountUsername);
         accountCustomWorkouts = findViewById(R.id.customWorkouts);
         accountFollowers = findViewById(R.id.followers);
@@ -44,8 +85,12 @@ public class ProfileActivity extends AppCompatActivity {
         accountHeight = findViewById(R.id.accountHeight);
         userProfilePicture = findViewById(R.id.userProfilePicture);
         accountGenderIcon = findViewById(R.id.accountGenderIcon);
+        dialog = new ProgressDialog(this, "Uploading");
 
-        String currentUserUid = mAuth.getCurrentUser().getUid();
+        currentUserUid = mAuth.getCurrentUser().getUid();
+
+        permissionManager = new PermissionManager() {};
+        permissionManager.checkAndRequestPermissions(this);
 
         databaseRef.child("Users").child(currentUserUid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,6 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String currCustomWorkouts = String.valueOf(dataSnapshot.child("Social").child("Custom Workouts").getChildrenCount());
                 String currFollowers = String.valueOf(dataSnapshot.child("Social").child("Followers").getChildrenCount());
                 String currFollowing = String.valueOf(dataSnapshot.child("Social").child("Following").getChildrenCount());
+                String currProfilePicUrl = dataSnapshot.child("ProfileImage").getValue(String.class);
                 switch (gender){
                     case "Male":
                         accountGenderIcon.setBackgroundResource(R.drawable.male_2);
@@ -73,10 +119,19 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
                 }
 
+
                 accountCustomWorkouts.setText(currCustomWorkouts.equals(null) ? "0" : currCustomWorkouts);
                 accountFollowers.setText(currFollowers.equals(null) ? "0" : currFollowers);
                 accountFollowing.setText(currFollowing.equals(null) ? "0" : currFollowing);
 
+                Glide.clear(userProfilePicture);
+                if(currProfilePicUrl != null){
+
+
+                            Glide.with(getApplication()).load(currProfilePicUrl).centerCrop().into(userProfilePicture);
+
+
+                }
 
                 accountAge.setText(age);
                 accountUsername.setText(username);
@@ -98,6 +153,69 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+        setNewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            try {
+                dialog.show();
+                Uri imageUri = data.getData();
+                final Map userProfile = new HashMap();
+                resultUri = imageUri;
+                SimpleDateFormat dtf = new SimpleDateFormat("MM/ddyyyy HH:mm");
+                Date date = new Date();
+                String compatDate = String.valueOf(dtf.format(date)).replace('/', '-');
+                StorageReference filepath = mStorage.child("Users").child(currentUserUid).child("Profile Images").child(String.valueOf(compatDate + "_" + System.currentTimeMillis() + "." + getImageExt(resultUri)));
+
+                filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        userProfilePicture.setImageURI(resultUri);
+                        Uri downloadUri = taskSnapshot.getDownloadUrl();
+                        userProfile.put("ProfileImage", downloadUri.toString());
+                        databaseRef.child("Users").child(currentUserUid).updateChildren(userProfile);
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ProfileActivity.this, "Failed to change profile picture", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+
+            }
+            catch (Exception e){
+                dialog.dismiss();
+                Toast.makeText(this, "Error: Please check permissions", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+
+    public String getImageExt(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionManager.checkResult(requestCode, permissions, grantResults);
 
     }
 }
