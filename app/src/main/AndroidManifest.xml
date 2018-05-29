@@ -28,7 +28,8 @@
         <activity
             android:name=".WorkoutActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" ></activity>
     </application>
 
 </manifest>

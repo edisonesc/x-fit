@@ -38,7 +38,8 @@ public class HomeActivity extends AppCompatActivity {
         mWorkout = findViewById(R.id.buttonWorkout);
         mNutrition = findViewById(R.id.buttonNutrition);
         mSleep = findViewById(R.id.buttonSleep);
-        mProfile = findViewById(R.id.buttonSettings);
+        mProfile = findViewById(R.id.buttonProfile);
+        mSettings = findViewById(R.id.buttonSettings);
         relativeLayout.setAnimation(uptodown);
         gridLayout.setAnimation(downtoup);
         mLogout.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +76,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
+        mProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(i);
+            }
+        });
     }
     @Override
     public void onStart() {
