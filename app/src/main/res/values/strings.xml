@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">X-fit</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string-array name="spinner_gender_item">
+
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+</resources>

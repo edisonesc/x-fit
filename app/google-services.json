@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "807284799927",
+    "firebase_url": "https://bfit-v2.firebaseio.com",
+    "project_id": "bfit-v2",
+    "storage_bucket": "bfit-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807284799927:android:5d1a901327c634af",
+        "android_client_info": {
+          "package_name": "com.example.edison.x_fit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807284799927-r5iqikjunqah2e2ns5qhhrjtv7h3jpg0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.edison.x_fit",
+            "certificate_hash": "d4e0a5ce5a1a52dbe25254f065afad72192cba1b"
+          }
+        },
+        {
+          "client_id": "807284799927-15ueljb42tp85s164i5515nbco3fmmk7.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "807284799927-15ueljb42tp85s164i5515nbco3fmmk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnoOe--CwKfnWYvfbjNk8AvNCb9iG6XCM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807284799927-15ueljb42tp85s164i5515nbco3fmmk7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

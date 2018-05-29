@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#131415</color>
+    <color name="colorPrimaryDark">#0b0c0d</color>
+    <color name="colorAccent">#4fbdfb</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="rounded_btn">#ffff</color>
+    <color name="my_spinner_text_color">#fff</color>
+
+
+
+
+    <!--<color name="colorPrimary">#252629</color>-->
+    <!--<color name="colorPrimaryDark">#161718</color>-->
+    <!--<color name="colorAccent">#4fbdfb</color>-->
+
+    <!--<color name="black_overlay">#66000000</color>-->
+    <!--<color name="rounded_btn">#ffff</color>-->
+    <!--<color name="my_spinner_text_color">#fff</color>-->
+</resources>

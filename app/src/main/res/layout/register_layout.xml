@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/rounded_button"
+        android:text="Register" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/textView21"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/background"
+        android:ems="10"
+
+        android:gravity="center"
+        android:inputType="textCapWords"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="53dp"
+        android:text="Name"
+        android:textColor="#fff" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:layout_below="@+id/textView22"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/background"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView21"
+        android:layout_marginTop="127dp"
+        android:text="Email"
+        android:textColor="#fff" />
+
+    <Spinner
+        android:id="@+id/spinnerGender"
+        android:layout_width="166dp"
+        android:layout_height="48dp"
+        android:layout_alignStart="@+id/editTextName"
+        android:layout_alignTop="@+id/textView23" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="166dp"
+        android:layout_height="48dp"
+        android:layout_above="@+id/textView27"
+        android:layout_alignStart="@+id/editTextName"
+        android:background="@drawable/background"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/editTextAge"
+        android:layout_width="109dp"
+
+        android:layout_height="48dp"
+        android:layout_alignEnd="@+id/editTextName"
+        android:layout_alignTop="@+id/spinnerGender"
+        android:background="@drawable/background"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="number"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/spinnerGender"
+        android:layout_alignStart="@+id/button2"
+        android:text="Gender"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/spinnerGender"
+        android:layout_alignStart="@+id/spinnerWeightUnit"
+        android:text="Age"
+        android:textColor="#fff" />
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="166dp"
+        android:layout_height="47dp"
+        android:layout_above="@+id/textView29"
+        android:layout_alignStart="@+id/editTextName"
+        android:background="@drawable/background"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:textColor="#fff" />
+
+    <Spinner
+        android:id="@+id/spinnerWeightUnit"
+        android:layout_width="109dp"
+        android:layout_height="46dp"
+        android:layout_alignStart="@+id/editTextAge"
+        android:layout_alignTop="@+id/editTextWeight"
+        android:layout_marginStart="1dp" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="109dp"
+
+        android:layout_height="47dp"
+        android:layout_alignEnd="@+id/editTextName"
+        android:layout_alignTop="@+id/editTextWeight"
+        android:background="@drawable/background"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:textColor="#fff"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editTextWeight"
+        android:layout_alignStart="@+id/textView21"
+        android:text="Weight" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:textColor="#fff"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editTextWeight"
+        android:layout_alignStart="@+id/textView25"
+        android:text="Unit" />
+
+
+    <EditText
+        android:id="@+id/editTextHeightFt"
+        android:layout_width="169dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/editTextName"
+        android:layout_marginBottom="111dp"
+        android:background="@drawable/background"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="number"
+        android:textColor="#fff" />
+
+    <EditText
+        android:id="@+id/editTextHeightIn"
+        android:layout_width="108dp"
+
+        android:layout_height="48dp"
+        android:layout_alignEnd="@+id/editTextName"
+        android:layout_alignTop="@+id/editTextHeightFt"
+        android:background="@drawable/background"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:layout_above="@+id/editTextHeightFt"
+        android:layout_alignStart="@+id/textView21"
+        android:text="Height" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/textView31"
+        android:layout_marginStart="190dp"
+        android:text="ft"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/editTextHeightFt"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="48dp"
+        android:text="in"
+        android:textColor="#fff" />
+
+</RelativeLayout>
