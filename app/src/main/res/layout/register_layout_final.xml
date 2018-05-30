@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:materialdesign="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:background="@color/colorPrimary">
     <LinearLayout
@@ -181,6 +182,7 @@
 
 
     <LinearLayout
+        android:id="@+id/layout_Height_Ft"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
@@ -207,8 +209,36 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <LinearLayout
+        android:id="@+id/layout_Height_Cm"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:id="@+id/editTextHeightCM"
+                android:inputType="numberDecimal"
+                android:layout_height="69dp"
+                app:met_primaryColor="#000"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                android:gravity="center"
+                app:met_floatingLabelText="Centimeters"
+                android:hint="Height (CM)" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_Height_In"
+        android:visibility="invisible"
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
@@ -264,4 +294,37 @@
         custom:pb_textComplete="Success"
         custom:pb_textError="Error"
         custom:pb_textProgress="Loading" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/layout_Height_Ft"
+        android:layout_marginEnd="37dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:text="cm"/>
+    <com.gc.materialdesign.views.Switch
+        android:id="@+id/switchView"
+        materialdesign:check="false"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:background="#1E88E5" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:text="ft"/>
+    </LinearLayout>
 </RelativeLayout>
