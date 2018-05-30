@@ -9,6 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dd.morphingbutton.MorphingButton;
+import com.dd.morphingbutton.impl.LinearProgressButton;
+import com.dd.processbutton.FlatButton;
+import com.dd.processbutton.iml.ActionProcessButton;
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.widgets.ProgressDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,13 +25,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mLogin;
-    private EditText mUsername, mPassword;
+    private ActionProcessButton mLogin;
+    private MaterialEditText mUsername, mPassword;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +60,25 @@ public class MainActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.editText9);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        mLogin.setMode(ActionProcessButton.Mode.ENDLESS);
+        mLogin.setProgress(0);
+
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                 if(!mUsername.getText().toString().isEmpty() || !mPassword.getText().toString().isEmpty() ||
                         !mUsername.getText().toString().isEmpty() &&
                         !mPassword.getText().toString().isEmpty()){
+                    mLogin.setProgress(60);
                 final String username = mUsername.getText().toString();
                 final String password = mPassword.getText().toString();
-
+                    mLogin.setProgress(75);
                     mDatabase.child("Usernames").child(username).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            mLogin.setProgress(85);
                             final String email = dataSnapshot.child("Email").getValue(String.class);
 
                             if (email != null) {
@@ -73,14 +87,17 @@ public class MainActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (!task.isSuccessful()) {
                                             Toast.makeText(MainActivity.this, "Login problem", Toast.LENGTH_SHORT).show();
-
+                                            mLogin.setProgress(-1);
                                         }
+                                        else{mLogin.setProgress(100);}
 
                                     }
                                 });
                             } else {
+                                mLogin.setProgress(-1);
                                 Toast.makeText(MainActivity.this, "Error ", Toast.LENGTH_SHORT).show();
                             }
+
                         }
 
                         @Override
@@ -124,4 +141,5 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         mAuth.removeAuthStateListener(mAuthListener);
     }
+
 }

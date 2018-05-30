@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
+    android:background="@color/colorPrimary">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="20dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_alignParentTop="true">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:id="@+id/editTextName"
+                android:layout_height="69dp"
+                app:met_primaryColor="#000"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                android:gravity="center"
+                app:met_floatingLabelText="Name"
+                android:inputType="textCapWords"
+                android:hint="Enter name" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_alignParentTop="true">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:id="@+id/editTextEmail"
+                android:inputType="textWebEmailAddress"
+                android:layout_height="69dp"
+                app:met_primaryColor="#000"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                android:gravity="center"
+                app:met_floatingLabelText="Email"
+
+                android:hint="Enter email" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/custom_edit_text"
+        android:orientation="vertical"
+        android:layout_marginStart="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
+            <TextView
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#73000000"
+                android:text="Gender"
+                />
+            <Spinner
+                android:layout_marginTop="11dp"
+                android:id="@+id/spinnerGender"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                 />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="230dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:id="@+id/editTextAge"
+                android:inputType="number"
+                android:layout_height="69dp"
+                app:met_primaryColor="#000"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                android:gravity="center"
+                app:met_floatingLabelText="Age"
+
+                android:hint="Age" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="230dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
+            <TextView
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unit"
+                android:textColor="#73000000"
+                />
+            <Spinner
+                android:layout_marginTop="11dp"
+                android:id="@+id/spinnerWeightUnit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:id="@+id/editTextWeight"
+                android:inputType="numberDecimal"
+                android:layout_height="69dp"
+                app:met_primaryColor="#000"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                android:gravity="center"
+                app:met_floatingLabelText="Weight"
+                android:hint="Weight" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:id="@+id/editTextHeightFt"
+                android:inputType="number"
+                android:layout_height="69dp"
+                app:met_primaryColor="#000"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                android:gravity="center"
+                app:met_floatingLabelText="Ft"
+                android:hint="Height (Ft)" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="230dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:id="@+id/editTextHeightIn"
+                android:inputType="number"
+                android:layout_height="69dp"
+                app:met_primaryColor="#000"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                android:gravity="center"
+                app:met_floatingLabelText="In"
+                android:hint="Height (In)" />
+        </LinearLayout>
+        </LinearLayout>
+
+    <com.dd.processbutton.iml.ActionProcessButton xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btnSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginBottom="40dp"
+        android:paddingTop="4dp"
+        android:text="Register"
+
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintVertical_bias="0.759"
+        custom:pb_colorComplete="#04ff47"
+        custom:pb_colorError="@color/red_error"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="Success"
+        custom:pb_textError="Error"
+        custom:pb_textProgress="Loading" />
+</RelativeLayout>

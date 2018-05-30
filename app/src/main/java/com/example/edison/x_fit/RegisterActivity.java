@@ -17,21 +17,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class RegisterActivity extends AppCompatActivity {
     private Spinner mGender, mWeightUnit;
-    private EditText mName, mEmail, mWeight, mAge, mHeightFt, mHeightIn;
+    private MaterialEditText mName, mEmail, mWeight, mAge, mHeightFt, mHeightIn;
     private String genders[] = {"Male", "Female", "Other"};
     private String weightUnits[] = {"Kg", "Lbs"};
     private int weightUnitIcon[] = {R.drawable.ic_power_input_black_24dp, R.drawable.ic_line_weight_black_24dp};
-    private int genderIcon[] = {R.drawable.male1, R.drawable.femenine1, R.drawable.unknown};
+    private int genderIcon[] = {R.drawable.male_2, R.drawable.female_2, R.drawable.ic_panorama_fish_eye_black_24dp};
     private Button mRegister;
     private ActionProcessButton btnSignIn;
     ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.register_layout_final);
         //mRegister = findViewById(R.id.buttonRegister);
         mGender  = findViewById(R.id.spinnerGender);
         mWeightUnit = findViewById(R.id.spinnerWeightUnit);
@@ -41,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
         mAge = findViewById(R.id.editTextAge);
         mHeightFt = findViewById(R.id.editTextHeightFt);
         mHeightIn = findViewById(R.id.editTextHeightIn);
+
+
         CustomAdapter customAdapterGender = new CustomAdapter(getApplicationContext(),genderIcon, genders);
         mGender.setAdapter(customAdapterGender);
         CustomAdapter customAdapterWeight = new CustomAdapter(getApplicationContext(), weightUnitIcon, weightUnits);
@@ -63,7 +66,9 @@ public class RegisterActivity extends AppCompatActivity {
                         !mWeight.getText().toString().isEmpty() &&
                         !mAge.getText().toString().isEmpty() &&
                         !mHeightFt.getText().toString().isEmpty() &&
-                        !mHeightIn.getText().toString().isEmpty()
+                        !mHeightIn.getText().toString().isEmpty() &&
+                        !mWeight.getText().toString().equals(".")
+
 
 
                         ){
@@ -84,6 +89,8 @@ public class RegisterActivity extends AppCompatActivity {
                             !String.valueOf(heightIn).isEmpty() &&
                             (heightFt <= 20) &&
                             (heightIn <= 13)
+
+
 
                             ) {
                         btnSignIn.setProgress(75);
@@ -117,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
-        findViewById(R.id.linearLayout).setOnTouchListener(new View.OnTouchListener() {
+        findViewById(R.id.relativeLayout).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);

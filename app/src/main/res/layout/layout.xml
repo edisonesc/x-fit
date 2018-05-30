@@ -2,72 +2,106 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary">
 
 
-    <EditText
-        android:id="@+id/editTextUsername"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="119dp"
-        android:background="@drawable/custom_edit_text"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="#000" />
-
-    <EditText
-        android:id="@+id/editText9"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-
-        android:textColor="#000"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="188dp"
-        android:background="@drawable/custom_edit_text"
-        android:ems="10"
-        android:inputType="textPassword"
-         />
-
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="126dp"
-        android:layout_height="37dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp"
-        android:background="@drawable/rounded_button"
-        android:text="Login" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#fff"
-
-        android:layout_above="@+id/editTextUsername"
+        android:layout_height="60dp"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="-119dp"
-        android:layout_marginStart="35dp"
-        android:text="Username" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/custom_edit_text"
+        android:layout_marginStart="20dp"
+        >
+    <LinearLayout
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editText9"
-        android:layout_alignStart="@+id/textView17"
-        android:layout_marginBottom="-188dp"
-        android:textColor="#fff"
-        android:text="Password" />
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentTop="true">
+    <com.rengwuxian.materialedittext.MaterialEditText
+
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:id="@+id/editTextUsername"
+        android:layout_height="69dp"
+
+        app:met_primaryColor="#000"
+
+        app:met_baseColor="#161515"
+        app:met_floatingLabel="highlight"
+        android:gravity="center"
+        app:met_floatingLabelText="Username"
+
+        android:hint="Enter username" />
+    </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/custom_edit_text">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_alignParentTop="true">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/editText9"
+                android:layout_width="match_parent"
+                android:layout_height="69dp"
+                android:gravity="center"
+                android:hint="Enter password"
+                android:inputType="textPassword"
+                app:met_baseColor="#161515"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="Password" />
+        </LinearLayout>
+    </LinearLayout>
+    <!--<Button-->
+        <!--android:id="@+id/buttonLogin"-->
+        <!--android:layout_width="126dp"-->
+        <!--android:layout_height="37dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="79dp"-->
+        <!--android:background="@drawable/rounded_button"-->
+        <!--android:text="Login" />-->
+
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_alignTop="@+id/buttonLogin"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@color/rounded_btn"></LinearLayout>-->
+    <!--<com.gc.materialdesign.views.ButtonFlat-->
+        <!--android:id="@+id/buttonLogin"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="50dp"-->
+
+
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginBottom="37dp"-->
+        <!--android:background="#000"-->
+        <!--android:text="Login"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.652" />-->
+
 
 
     <TextView
@@ -77,26 +111,65 @@
 
 
         android:layout_below="@+id/buttonLogin"
-        android:layout_marginBottom="-20dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="-79dp"
-        android:layout_alignStart="@id/buttonLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-50dp"
         android:text="Not registered? Click "
         android:textColor="#fff"
         android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/buttonLogin"
-            android:layout_marginTop="-78dp"
-            android:textColor="@color/colorAccent"
-            android:textSize="12sp"
-            android:onClick="registerRoute"
-            android:layout_toEndOf="@+id/textView19"
-            android:text="here." />
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonLogin"
+        android:layout_marginTop="-50dp"
+        android:layout_toEndOf="@+id/textView19"
+        android:onClick="registerRoute"
+        android:text="here."
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp" />
 
+
+    <com.dd.processbutton.iml.ActionProcessButton xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/buttonLogin"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginBottom="57dp"
+        android:paddingTop="4dp"
+        android:text="Register"
+
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintVertical_bias="0.759"
+        custom:pb_colorComplete="#04ff47"
+        custom:pb_colorError="@color/red_error"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="Success"
+        custom:pb_textError="Error"
+        custom:pb_textProgress="Loading" />
+
+    <!--<com.dd.morphingbutton.MorphingButton-->
+        <!--android:id="@+id/buttonLogin"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="63dp"-->
+        <!--android:text="Login"-->
+        <!--android:textColor="#fff"-->
+        <!--android:textSize="18sp"-->
+
+        <!---->
+        <!--/>-->
 
 
 

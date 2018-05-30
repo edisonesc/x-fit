@@ -23,7 +23,7 @@
                 android:layout_width="115dp"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
                 android:layout_height="115dp">
 
 
@@ -32,8 +32,6 @@
 
                     android:id="@+id/userProfilePicture"
                     android:layout_width="100dp"
-
-
                     android:layout_height="100dp"
                     android:src="@color/colorPrimary"/>
                 <com.gc.materialdesign.views.ButtonFloat
