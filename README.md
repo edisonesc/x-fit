@@ -1,1 +1,1 @@
-![alt text](https://github.com/edisonesc/x-fit/blob/master/screenshots/photo_2018-05-30_14-13-47.jpg"Home")
+![Homepage](https://user-images.githubusercontent.com/21971681/40702533-cad8b1ca-6414-11e8-8030-f3e0178d91bb.jpg)
