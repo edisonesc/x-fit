@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.hardware.input.InputManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethod;
@@ -32,7 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
     private String isCMorFT;
     private ActionProcessButton btnSignIn;
     private LinearLayout heightFt, heightIn, heightCm;
-    private boolean cm_ft;
+    private  Switch aSwitch;
+    private boolean isItinCM;
+    String previousFt, previousIn, previousCm;
     ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +52,55 @@ public class RegisterActivity extends AppCompatActivity {
         mAge = findViewById(R.id.editTextAge);
         mHeightFt = findViewById(R.id.editTextHeightFt);
         mHeightIn = findViewById(R.id.editTextHeightIn);
-        com.gc.materialdesign.views.Switch aSwitch = findViewById(R.id.switchView);
+        aSwitch = findViewById(R.id.switchView);
         heightCm = findViewById(R.id.layout_Height_Cm);
         heightFt = findViewById(R.id.layout_Height_Ft);
         heightIn = findViewById(R.id.layout_Height_In);
         mHeightCM = findViewById(R.id.editTextHeightCM);
 
+        isItinCM = false;
+        aSwitch.setChecked(false);
 
-        aSwitch.setOncheckListener(new com.gc.materialdesign.views.Switch.OnCheckListener() {
+        aSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheck(com.gc.materialdesign.views.Switch view, boolean check) {
-                if(!check){
+            public void onClick(View v) {
+                aSwitch.setChecked(isItinCM);
+                if(isItinCM){
+
+                    if(!mHeightCM.getText().toString().isEmpty() ) {
+                        String convert = String.valueOf(round(Double.valueOf(mHeightCM.getText().toString()) / 30.48, 1));
+                        String ft = convert.substring(0, convert.indexOf("."));
+                        String in = convert.substring(convert.indexOf('.') + 1);
+                        mHeightFt.setText(ft);
+                        mHeightIn.setText(in);
+                    }
+                    else {
+                        Toast.makeText(RegisterActivity.this, "ooooooooooooooo", Toast.LENGTH_SHORT).show();
+                    }
                     heightCm.setVisibility(View.VISIBLE);
                     heightFt.setVisibility(View.INVISIBLE);
                     heightIn.setVisibility(View.INVISIBLE);
-                    cm_ft = true;
-
+                    isItinCM = true;
                 }
                 else{
+                    if(!(mHeightFt.getText().toString().isEmpty() && mHeightIn.getText().toString().isEmpty()) ||
+                            !mHeightFt.getText().toString().isEmpty() ||
+                            !mHeightIn.getText().toString().isEmpty())
+                    {
+                        String convert = String.valueOf(mHeightFt.getText().toString() + "." + mHeightIn.getText().toString()).trim();
+                        Double result = round(Double.valueOf(convert) * 30.48, 0);
+                        mHeightCM.setText(String.valueOf(result).substring(0, String.valueOf(result).indexOf('.')));
+                    }
+                    else {Toast.makeText(RegisterActivity.this, "else of ft", Toast.LENGTH_SHORT).show();}
                     heightCm.setVisibility(View.INVISIBLE);
                     heightFt.setVisibility(View.VISIBLE);
                     heightIn.setVisibility(View.VISIBLE);
-                    cm_ft = false;
+                    isItinCM = false;
                 }
+
             }
+
         });
-
-
         CustomAdapter customAdapterGender = new CustomAdapter(getApplicationContext(),genderIcon, genders);
         mGender.setAdapter(customAdapterGender);
         CustomAdapter customAdapterWeight = new CustomAdapter(getApplicationContext(), weightUnitIcon, weightUnits);
@@ -83,62 +110,63 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btnSignIn);
 
         btnSignIn.setMode(ActionProcessButton.Mode.PROGRESS);
-
-
-
-
+//        mHeightCM.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if(hasFocus){
+//                    previousFt = mHeightFt.getText().toString();
+//                    previousIn = mHeightIn.getText().toString();
+//                    mHeightFt.setText(null);
+//                    mHeightIn.setText(null);
+//                }
+//            }
+//        });
+//        mHeightFt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                previousCm = mHeightCM.getText().toString();
+//                mHeightCM.setText(null);
+//            }
+//        });
+//        mHeightIn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                mHeightCM.setText(null);
+//            }
+//        });
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 btnSignIn.setProgress(0);
+                aSwitch.setChecked(!isItinCM);
+                aSwitch.setChecked(isItinCM);
+                Toast.makeText(RegisterActivity.this, String.valueOf(isItinCM), Toast.LENGTH_SHORT).show();
                 if (!mName.getText().toString().isEmpty() &&
                         !mEmail.getText().toString().isEmpty() &&
                         !mWeight.getText().toString().isEmpty() &&
                         !mAge.getText().toString().isEmpty() &&
-
-
-                        (cm_ft ? !mHeightCM.getText().toString().isEmpty() : !mHeightFt.getText().toString().isEmpty()) &&
-                        (cm_ft ? !mHeightCM.getText().toString().isEmpty() : !mHeightIn.getText().toString().isEmpty()) &&
+                        (!mHeightFt.getText().toString().isEmpty() && !mHeightIn.getText().toString().isEmpty()) &&
                         !mWeight.getText().toString().equals(".")
-
-
-
-                        ){
+                        ) {
                     String name = mName.getText().toString();
                     String email = mEmail.getText().toString();
                     String gender = genders[mGender.getSelectedItemPosition()];
                     int weight = Integer.valueOf(mWeight.getText().toString());
                     int age = Integer.valueOf(mAge.getText().toString());
-                    int heightFt = Integer.valueOf(mHeightFt.getText().toString().isEmpty() ? "0" : mHeightFt.getText().toString() );
-                    double heightIn = Double.valueOf(mHeightIn.getText().toString().isEmpty() ? "0" : mHeightIn.getText().toString());
+                    int heightFt = Integer.valueOf(mHeightFt.getText().toString());
+                    double heightIn = Double.valueOf(mHeightIn.getText().toString());
                     String weightUnit = weightUnits[mWeightUnit.getSelectedItemPosition()];
-                    double mHeightCm = Double.valueOf(mHeightCM.getText().toString());
                     btnSignIn.setProgress(50);
-
-                    if(!name.isEmpty() && email.contains("@") && email.contains(".com") &&
-                            !String.valueOf(weight).isEmpty() &&
-                            !String.valueOf(age).isEmpty() &&
-                            (cm_ft ? !String.valueOf(mHeightCm).isEmpty(): !String.valueOf(heightFt).isEmpty()  )&&
-                            (cm_ft ? !String.valueOf(mHeightCm).isEmpty():(!String.valueOf(heightIn).isEmpty() ))&&
-                            (cm_ft ? (mHeightCm > 0):(heightFt <= 20 && heightFt > 0)) &&
-                            (cm_ft ? String.valueOf(mHeightCm).isEmpty():(heightIn <= 13 && heightIn > 0))
-
-
-
+                    if (!name.isEmpty() && email.contains("@") && email.contains(".com") && //Name is not empty
+                            !String.valueOf(weight).isEmpty() && //Weight is not empty
+                            !String.valueOf(age).isEmpty() // age is not empty
+                            &&
+                            (!String.valueOf(heightFt).isEmpty() && !String.valueOf(heightIn).isEmpty()) && //Val of height
+                            ((heightFt <= 20 && heightFt > 0))
+                            && ((heightIn <= 13 && heightIn > 0))
                             ) {
-
-
-
-                        if(cm_ft){
-
-                            String  convert = String.valueOf(round(Double.valueOf(mHeightCM.getText().toString()) / 30.48, 1));
-                            String ft =  convert.substring(0, convert.indexOf("."));
-                            String in = convert.substring('.');
-                            heightFt = Integer.valueOf(ft);
-                            heightIn = Double.valueOf(in);
-
-
-                        }
                         btnSignIn.setProgress(75);
                         Intent finalProcedure = new Intent(RegisterActivity.this, RegisterLastStep.class);
                         finalProcedure.putExtra("Name", name);
@@ -151,23 +179,14 @@ public class RegisterActivity extends AppCompatActivity {
                         finalProcedure.putExtra("WeightUnit", weightUnit);
                         btnSignIn.setProgress(100);
                         startActivity(finalProcedure);
-
-
-                    }
-                    else {
-
+                    } else {
                         btnSignIn.setProgress(-1);
                         Toast.makeText(RegisterActivity.this, "Please check fields carefully", Toast.LENGTH_SHORT).show();
                     }
-
-                }
-                else {
+                } else {
                     btnSignIn.setProgress(-1);
                     Toast.makeText(RegisterActivity.this, "Please check the fields", Toast.LENGTH_SHORT).show();
                 }
-
-
-
             }
         });
         findViewById(R.id.relativeLayout).setOnTouchListener(new View.OnTouchListener() {
@@ -175,75 +194,48 @@ public class RegisterActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
-
                 return true;
             }
         });
-
-
-//        mRegister.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!mName.getText().toString().isEmpty() &&
-//                        !mEmail.getText().toString().isEmpty() &&
-//                        !mWeight.getText().toString().isEmpty() &&
-//                        !mAge.getText().toString().isEmpty() &&
-//                        !mHeightFt.getText().toString().isEmpty() &&
-//                        !mHeightIn.getText().toString().isEmpty()
-//
-//
-//                        ){
-//                    String name = mName.getText().toString();
-//                    String email = mEmail.getText().toString();
-//                    String gender = genders[mGender.getSelectedItemPosition()];
-//                    int weight = Integer.valueOf(mWeight.getText().toString());
-//                    int age = Integer.valueOf(mAge.getText().toString());
-//                    int heightFt = Integer.valueOf(mHeightFt.getText().toString());
-//                    double heightIn = Double.valueOf(mHeightIn.getText().toString());
-//                    String weightUnit = weightUnits[mWeightUnit.getSelectedItemPosition()];
-//
-//
-//                    if(!name.isEmpty() && email.contains("@") && email.contains(".com") &&
-//                            !String.valueOf(weight).isEmpty() &&
-//                            !String.valueOf(age).isEmpty() &&
-//                            !String.valueOf(heightFt).isEmpty() &&
-//                            !String.valueOf(heightIn).isEmpty() &&
-//                            (heightFt <= 20) &&
-//                            (heightIn <= 13)
-//
-//                            ) {
-//                        Intent finalProcedure = new Intent(RegisterActivity.this, RegisterLastStep.class);
-//                        finalProcedure.putExtra("Name", name);
-//                        finalProcedure.putExtra("Email", email);
-//                        finalProcedure.putExtra("Gender", gender);
-//                        finalProcedure.putExtra("Weight", weight);
-//                        finalProcedure.putExtra("Age", age);
-//                        finalProcedure.putExtra("HeightFt", heightFt);
-//                        finalProcedure.putExtra("HeightIn", heightIn);
-//                        finalProcedure.putExtra("WeightUnit", weightUnit);
-//                        startActivity(finalProcedure);
-//
-//                        Toast.makeText(RegisterActivity.this, "info saved", Toast.LENGTH_SHORT).show();
-//                    }}
-//                else {
-//
-//                    Toast.makeText(RegisterActivity.this, "Please check the fields", Toast.LENGTH_SHORT).show();
-//                }
-//
-//
-//
-//
-//            }
-//        });
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         btnSignIn.setProgress(0);
+
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    isItinCM = isChecked;
+                    if(!mHeightCM.getText().toString().isEmpty() ) {
+                        String convert = String.valueOf(round(Double.valueOf(mHeightCM.getText().toString()) / 30.48, 1));
+                        String ft = convert.substring(0, convert.indexOf("."));
+                        String in = convert.substring(convert.indexOf('.') + 1);
+                        mHeightFt.setText(ft);
+                        mHeightIn.setText(in);
+                    }
+                    heightCm.setVisibility(View.VISIBLE);
+                    heightFt.setVisibility(View.INVISIBLE);
+                    heightIn.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    isItinCM = isChecked;
+                    if(!(mHeightFt.getText().toString().isEmpty() && mHeightIn.getText().toString().isEmpty()) ||
+                            !mHeightFt.getText().toString().isEmpty() ||
+                            !mHeightIn.getText().toString().isEmpty())
+                    {
+                        String convert = String.valueOf(mHeightFt.getText().toString() + "." + mHeightIn.getText().toString()).trim();
+                        Double result = round(Double.valueOf(convert) * 30.48, 0);
+                        mHeightCM.setText(String.valueOf(result).substring(0, String.valueOf(result).indexOf('.')));
+                    }
+                    heightCm.setVisibility(View.INVISIBLE);
+                    heightFt.setVisibility(View.VISIBLE);
+                    heightIn.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
     private static double round (double value, int precision) {
         int scale = (int) Math.pow(10, precision);

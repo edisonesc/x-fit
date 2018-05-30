@@ -139,7 +139,7 @@
 
         android:layout_marginBottom="57dp"
         android:paddingTop="4dp"
-        android:text="Register"
+        android:text="Login"
 
         android:textColor="@android:color/white"
         android:textSize="18sp"
