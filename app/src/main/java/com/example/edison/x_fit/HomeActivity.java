@@ -76,6 +76,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        mSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, UserImageActivity.class);
+                startActivity(intent);
+            }
+        });
         mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -34,10 +34,12 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
 
 
     public static class  SimpleViewHolder extends RecyclerView.ViewHolder{
-        private SwipeLayout swipeLayout;
+        public SwipeLayout swipeLayout;
         private TextView textViewPos;
         private TextView textViewData;
         private Button buttonDelete;
+
+        public View button;
 
 
         public SimpleViewHolder (View itemView){
@@ -46,6 +48,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             textViewPos = itemView.findViewById(R.id.position);
             textViewData = itemView.findViewById(R.id.text_data);
             buttonDelete = itemView.findViewById(R.id.delete);
+            button = itemView.findViewById(R.id.trash);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -124,7 +127,6 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             @Override
             public void onClick(final View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-
 
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();

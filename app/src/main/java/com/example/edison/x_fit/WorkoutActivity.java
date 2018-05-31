@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,6 +37,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.jar.Attributes;
 
+
+
 public class WorkoutActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ArrayList<String> mWorkout = new ArrayList<>();
@@ -48,6 +51,7 @@ public class WorkoutActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private ConstraintLayout constraintLayout;
     private Button mAddWorkout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,8 @@ public class WorkoutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
         mUser = mAuth.getCurrentUser();
-
+//        animator = new SlideInLeftAnimator(new OvershootInterpolator(1f));
+//        recyclerView.setItemAnimator(animator);
         final String user = mUser.getUid();
         mAdapter = new RecyclerViewAdapter(mContext, mWorkout);
 
@@ -72,24 +77,36 @@ public class WorkoutActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Object value = dataSnapshot.getKey();
                 mWorkout.add(String.valueOf(value));
-
+                int index = mWorkout.indexOf(value);
                 if(mWorkout.isEmpty()){
                     showEmptyList.setVisibility(View.VISIBLE);
                 }
                 else {
                     showEmptyList.setVisibility(View.INVISIBLE);
                 }
+
                 mAdapter.notifyDataSetChanged();
+               // mAdapter.notifyItemChanged(index);
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                String value = dataSnapshot.getKey();
+                int index = mWorkout.indexOf(value);
+                mWorkout.set(index, value);
+               // mAdapter.notifyItemChanged(index);
+                mAdapter.notifyDataSetChanged();
 
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getKey();
+                int index = mWorkout.indexOf(value);
+                mWorkout.remove(index);
+                mAdapter.notifyDataSetChanged();
+             //   mAdapter.notifyItemRemoved(index);
 
             }
 

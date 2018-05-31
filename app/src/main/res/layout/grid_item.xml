@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeGrid"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout
+
+        android:tag="Bottom2"
+        android:background="#fff"
+        android:layout_width="40dp"
+        android:gravity="center"
+        android:layout_height="120dp">
+        <Button
+            android:clickable="true"
+            android:id="@+id/trash"
+            android:background="@drawable/ic_trash"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="10dp"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ic_launcher_round"
+        android:id="@+id/grid_item_image"/>
+</com.daimajia.swipe.SwipeLayout>
