@@ -1,6 +1,7 @@
 package com.example.edison.x_fit;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +15,24 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.vstechlab.easyfonts.EasyFonts;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAdapter.MyViewHolder> {
     LayoutInflater inflater;
@@ -43,8 +57,8 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        String data = mDataset.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        final String data = mDataset.get(position);
 
         holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
         holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
@@ -81,8 +95,55 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemManger.removeShownLayouts(holder.swipeLayout);
-                Toast.makeText(myContext, "delete", Toast.LENGTH_SHORT).show();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser mUser = mAuth.getCurrentUser();
+                String uid = mUser.getUid();
+                final String selectedForDel = mKeys.get(position);
+
+
+
+                final String month = selectedForDel.substring(0, 3); // jun
+                int day = Integer.valueOf(selectedForDel.substring(4, 6)); // 01
+                int year = Integer.valueOf(selectedForDel.substring(8, 11)); //2034
+                int seconds = Integer.valueOf(selectedForDel.substring(12,14));
+                Date date = null;
+                try {
+                    date = new SimpleDateFormat("MMM").parse(month);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                final int monthNum = calendar.get(Calendar.MONTH);
+                final String monthNumConv = String.valueOf(monthNum).length() == 1 ? "0" + monthNum : String.valueOf( monthNum);
+
+                final String finalResult = selectedForDel.replace(getMonth(monthNum).substring(0,3), monthNumConv);
+
+                databaseReference.child("Users").child(uid).child("Social").child("Images").child(finalResult).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        mItemManger.removeShownLayouts(holder.swipeLayout);
+                        mDataset.remove(position);
+                        mKeys.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mDataset.size());
+                        Toast.makeText(myContext, String.valueOf(
+                                selectedForDel.replace(getMonth(monthNum).substring(0,3), monthNumConv) +
+
+                                        getMonth(monthNum).substring(0,3) + ' ' +selectedForDel.substring(0,3)
+
+                        ), Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(myContext, "Problem deleting", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
             }
         });
         mItemManger.bindView(holder.itemView,position);
@@ -128,5 +189,8 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
             });
 
         }
+    }
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
     }
 }

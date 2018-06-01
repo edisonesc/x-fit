@@ -66,13 +66,15 @@ public class UserImageActivity extends AppCompatActivity {
                 String keys = dataSnapshot.getKey();
                 mData.add(value);
 
+
                 int month = Integer.valueOf(keys.substring(0, 2));
                 int day = Integer.valueOf(keys.substring(3, 5));
                 int year = Integer.valueOf(keys.substring(6, 10));
+                int seconds = Integer.valueOf(keys.substring(11, 13));
                 Calendar date = new GregorianCalendar(year, month, day);
                 String dateOfValue = new SimpleDateFormat("MMM").format(date.getTime()) +
                         " " + new SimpleDateFormat("dd").format(date.getTime()) + " " +
-                        new SimpleDateFormat("yyyy").format(date.getTime());
+                        new SimpleDateFormat("yyyy").format(date.getTime()) + " " + seconds;
                 Log.d("KEY", keys);
                 mKeys.add(dateOfValue);
                 customRecyclerAdapter.notifyDataSetChanged();
@@ -88,8 +90,10 @@ public class UserImageActivity extends AppCompatActivity {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
                 int index = mData.indexOf(value);
-                mData.remove(index);
-                customRecyclerAdapter.notifyDataSetChanged();
+//                mData.remove(index);
+//                mKeys.remove(index);
+//
+//                customRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override

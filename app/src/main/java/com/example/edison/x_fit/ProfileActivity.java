@@ -38,6 +38,7 @@ import com.karan.churi.PermissionManager.PermissionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -175,9 +176,16 @@ public class ProfileActivity extends AppCompatActivity {
                 SimpleDateFormat dtf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
                 SimpleDateFormat dtfRef = new SimpleDateFormat("MM dd yyyy");
                 final Date date = new Date();
+
                 Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+
                 final String seconds = String.valueOf(calendar.get(Calendar.SECOND));
+                final String theDate = String.valueOf(calendar.get(Calendar.MONTH));
                 final String dateRef = String.valueOf(dtfRef.format(date));
+
+
                 final String compatDate = String.valueOf(dtf.format(date)).replace('/', '-');
                 StorageReference filepath = mStorage.child("Users").child(currentUserUid).child("Profile Images").child(String.valueOf(compatDate + "_" + System.currentTimeMillis() + "." + getImageExt(resultUri)));
 
@@ -188,7 +196,12 @@ public class ProfileActivity extends AppCompatActivity {
                         Uri downloadUri = taskSnapshot.getDownloadUrl();
                         userImage.put("ProfileImage", downloadUri.toString());
                         databaseRef.child("Users").child(currentUserUid).updateChildren(userImage);
-                        userImages.put(dateRef +" "+ seconds, downloadUri.toString());
+
+
+
+
+                        userImages.put((theDate.length() == 1 ? "0"+theDate: theDate)
+                                + "" + dateRef.substring(2, dateRef.length()) +" "+  (seconds.length()== 1 ? "0" + seconds : seconds), downloadUri.toString());
                         databaseRef.child("Users").child(currentUserUid).child("Social").child("Images").updateChildren(userImages);
                         dialog.dismiss();
                     }
@@ -224,4 +237,8 @@ public class ProfileActivity extends AppCompatActivity {
         permissionManager.checkResult(requestCode, permissions, grantResults);
 
     }
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month-1];
+    }
+
 }
