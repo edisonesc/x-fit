@@ -14,12 +14,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:background="@color/black_overlay">
 
         <TextView
             android:id="@+id/titleRegister"
-            android:textSize="45dp"
+            android:textSize="45sp"
             android:text="Create an account"
             android:gravity="center"
             android:textColor="#fff"

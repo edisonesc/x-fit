@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SingleImageDisplayActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/singleImage"/>
+
 
 
     <com.victor.loading.rotate.RotateLoading
@@ -28,6 +25,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:loading_color="#bf0a71"
         app:loading_width="5dp" />
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/singleImage"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +32,7 @@ public class SingleImageDisplayActivity extends SlidingActivity implements Glide
         rotateLoading.start();
         imageView = findViewById(R.id.singleImage);
 
-
+        imageView.setVisibility(View.INVISIBLE);
         Bundle imagePrime = getIntent().getExtras();
 
         if(imagePrime != null){
@@ -40,8 +41,9 @@ public class SingleImageDisplayActivity extends SlidingActivity implements Glide
         }
         Glide.clear(imageView);
 
-
+        imageView.setVisibility(View.VISIBLE);
         Glide.with(getApplicationContext()).load(image).dontTransform().into(imageView);
+
 
         setTitle(info);
         rotateLoading.stop();

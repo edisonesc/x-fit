@@ -3,18 +3,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
     tools:context=".NutritionGraph">
 
     <!-- TODO: Update blank fragment layout -->
-
-
-    <com.github.mikephil.charting.charts.PieChart
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:id="@+id/pieChart"
-        android:foregroundGravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"/>
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:id="@+id/pieChart"
+                android:foregroundGravity="center"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="48dp"/>
+
+            <devlight.io.library.ArcProgressStackView
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:id="@+id/apsv"
+                app:apsv_rounded="false"
+                app:apsv_shadowed="true"
+                app:apsv_animated="true"
+                app:apsv_dragged="true"
+                app:apsv_leveled="true"
+                app:apsv_typeface="fonts/agency.ttf"
+
+                app:apsv_text_color="#fff"
+                app:apsv_shadow_distance="5dp"
+                app:apsv_shadow_angle="90"
+                app:apsv_shadow_radius="10dp"
+                app:apsv_shadow_color="#000"
+                app:apsv_animation_duration="1000"
+                app:apsv_interpolator="@android:anim/bounce_interpolator"
+                app:apsv_draw_width="70%"
+                app:apsv_model_offset="5dp"
+                app:apsv_model_bg_enabled="false"
+                app:apsv_start_angle="270"
+                app:apsv_sweep_angle="360"
+                app:apsv_indicator_orientation="vertical"
+                app:apsv_preview_colors="@array/default_preview"
+                app:apsv_preview_bg="#ccc"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
 </RelativeLayout>

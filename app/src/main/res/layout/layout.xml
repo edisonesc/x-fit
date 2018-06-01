@@ -24,7 +24,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="180dp"
-        android:background="@drawable/custom_edit_text"
+        android:background="@color/black_overlay"
         android:layout_marginStart="20dp"
         >
     <LinearLayout
@@ -39,9 +39,9 @@
         android:id="@+id/editTextUsername"
         android:layout_height="69dp"
 
-        app:met_primaryColor="#000"
+        app:met_primaryColor="#fff"
 
-        app:met_baseColor="#161515"
+        app:met_baseColor="#e7e2e2"
         app:met_floatingLabel="highlight"
         android:gravity="center"
         app:met_floatingLabelText="Username"
@@ -59,7 +59,7 @@
         android:layout_marginTop="260dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:background="@drawable/custom_edit_text">
+        android:background="@color/black_overlay">
 
         <LinearLayout
 
@@ -74,7 +74,9 @@
                 android:gravity="center"
                 android:hint="Enter password"
                 android:inputType="textPassword"
-                app:met_baseColor="#161515"
+                app:met_primaryColor="#fff"
+
+                app:met_baseColor="#e7e2e2"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelText="Password" />
         </LinearLayout>

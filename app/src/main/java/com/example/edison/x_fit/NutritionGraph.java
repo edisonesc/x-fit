@@ -21,6 +21,8 @@ import com.vstechlab.easyfonts.EasyFonts;
 
 import java.util.ArrayList;
 
+import devlight.io.library.ArcProgressStackView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +42,7 @@ public class NutritionGraph extends Fragment {
     private String mParam1;
     private String mParam2;
     PieChart pieChart = null;
+    ArcProgressStackView arcProgressStackView = null;
     private OnFragmentInteractionListener mListener;
 
     public NutritionGraph() {
@@ -88,6 +91,7 @@ public class NutritionGraph extends Fragment {
        View rootView =  inflater.inflate(R.layout.fragment_nutrition_graph, container, false);
 
         pieChart = rootView.findViewById(R.id.pieChart);
+        arcProgressStackView = rootView.findViewById(R.id.apsv);
         Legend legend = pieChart.getLegend();
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
@@ -99,6 +103,16 @@ public class NutritionGraph extends Fragment {
         pieChart.setTransparentCircleRadius(61f);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
 
+        ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
+        models.add(new ArcProgressStackView.Model("Protein", 70, Color.BLACK, Color.parseColor("#8e0000")));
+        models.add(new ArcProgressStackView.Model("Carbs", 30, Color.BLACK, Color.parseColor("#8e0000")));
+        models.add(new ArcProgressStackView.Model("Carbs", 30, Color.BLACK, Color.parseColor("#8e0000")));
+        models.add(new ArcProgressStackView.Model("Overall", 35, Color.BLACK, Color.parseColor("#000a12")));
+
+
+
+
+        arcProgressStackView.setModels(models);
         ArrayList<PieEntry> values = new ArrayList<>();
         values.add(new PieEntry(34f, "Carbohydrates"));
         values.add(new PieEntry(70f, "Protein"));
