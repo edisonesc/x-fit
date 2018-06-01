@@ -2,13 +2,16 @@ package com.example.edison.x_fit;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
@@ -20,6 +23,7 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
     LayoutInflater inflater;
     Context myContext;
     ArrayList<String> mDataset;
+
     public CustomRecyclerAdapter(Context context, ArrayList<String> mData) {
         this.myContext = context;
         this.mDataset = mData;
@@ -38,6 +42,7 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         String data = mDataset.get(position);
+
         holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
         holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
@@ -77,8 +82,13 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
                 Toast.makeText(myContext, "delete", Toast.LENGTH_SHORT).show();
             }
         });
-
+        mItemManger.bindView(holder.itemView,position);
         holder.position.setText((position + 1) + ".");
+        String images = mDataset.get(position);
+        Glide.clear(holder.image);
+        if(!mDataset.isEmpty()){
+                Glide.with(myContext).load(mDataset.get(position)).centerCrop().into(holder.image);
+        }
 
     }
 
@@ -96,12 +106,20 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
         SwipeLayout swipeLayout;
         Button delete;
         TextView position;
-
+        ImageView image;
         public MyViewHolder(View itemView) {
             super(itemView);
             swipeLayout =  itemView.findViewById(R.id.swipeGrid);
             delete = itemView.findViewById(R.id.trash);
+            image = itemView.findViewById(R.id.grid_item_image);
             position = itemView.findViewById(R.id.position);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(getClass().getSimpleName(), "onItemSelected: " + position.getText().toString());
+                    Toast.makeText(view.getContext(), "onItemSelected: " + position.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
     }

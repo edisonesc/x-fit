@@ -170,11 +170,15 @@ public class ProfileActivity extends AppCompatActivity {
             try {
                 dialog.show();
                 Uri imageUri = data.getData();
-                final Map userProfile = new HashMap();
+                final Map userImage = new HashMap(), userImages = new HashMap();
                 resultUri = imageUri;
-                SimpleDateFormat dtf = new SimpleDateFormat("MM/ddyyyy HH:mm");
-                Date date = new Date();
-                String compatDate = String.valueOf(dtf.format(date)).replace('/', '-');
+                SimpleDateFormat dtf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                SimpleDateFormat dtfRef = new SimpleDateFormat("MM dd yyyy");
+                final Date date = new Date();
+                Calendar calendar = Calendar.getInstance();
+                final String seconds = String.valueOf(calendar.get(Calendar.SECOND));
+                final String dateRef = String.valueOf(dtfRef.format(date));
+                final String compatDate = String.valueOf(dtf.format(date)).replace('/', '-');
                 StorageReference filepath = mStorage.child("Users").child(currentUserUid).child("Profile Images").child(String.valueOf(compatDate + "_" + System.currentTimeMillis() + "." + getImageExt(resultUri)));
 
                 filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -182,8 +186,10 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         userProfilePicture.setImageURI(resultUri);
                         Uri downloadUri = taskSnapshot.getDownloadUrl();
-                        userProfile.put("ProfileImage", downloadUri.toString());
-                        databaseRef.child("Users").child(currentUserUid).updateChildren(userProfile);
+                        userImage.put("ProfileImage", downloadUri.toString());
+                        databaseRef.child("Users").child(currentUserUid).updateChildren(userImage);
+                        userImages.put(dateRef +" "+ seconds, downloadUri.toString());
+                        databaseRef.child("Users").child(currentUserUid).child("Social").child("Images").updateChildren(userImages);
                         dialog.dismiss();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

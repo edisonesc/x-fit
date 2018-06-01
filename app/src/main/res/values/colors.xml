@@ -8,7 +8,13 @@
     <color name="rounded_btn">#ffff</color>
     <color name="my_spinner_text_color">#fff</color>
 
+    <array name="indicator_colors">
+        <item>#da6526</item>
+        <item>#2768a9</item>
+        <item>#d628c7</item>
+        <item>#c0ce29</item>
 
+    </array>
 
 
     <!--<color name="colorPrimary">#252629</color>-->

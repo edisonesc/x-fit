@@ -90,6 +90,13 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        mNutrition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this, NutritionActivity.class);
+                startActivity(i);
+            }
+        });
     }
     @Override
     public void onStart() {
