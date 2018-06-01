@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.morphingbutton.MorphingButton;
@@ -26,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vstechlab.easyfonts.EasyFonts;
 
 public class MainActivity extends AppCompatActivity {
     private ActionProcessButton mLogin;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout);
+        TextView title = findViewById(R.id.textViewTitle), subtitle = findViewById(R.id.textViewSubtitle);
+        title.setTypeface(EasyFonts.captureIt(this));
+        subtitle.setTypeface(EasyFonts.caviarDreams(this));
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override

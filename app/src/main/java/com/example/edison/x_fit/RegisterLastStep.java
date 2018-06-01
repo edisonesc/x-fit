@@ -5,11 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnticipateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vstechlab.easyfonts.EasyFonts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +39,13 @@ public class RegisterLastStep extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_last_step);
+        TextView title = findViewById(R.id.titleRegister);
+        title.setTypeface(EasyFonts.windSong(this));
         mUsername = findViewById(R.id.editTextUsername);
         mPassword = findViewById(R.id.editTextPassword);
+        KenBurnsView kbv = findViewById(R.id.image_register);
+        RandomTransitionGenerator generator = new RandomTransitionGenerator(100000, new AnticipateInterpolator());
+        kbv.setTransitionGenerator(generator);
         mRegister = findViewById(R.id.button3);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {

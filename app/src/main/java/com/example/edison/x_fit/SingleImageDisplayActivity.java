@@ -11,11 +11,13 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.module.GlideModule;
 import com.klinker.android.sliding.SlidingActivity;
+import com.victor.loading.rotate.RotateLoading;
 
 public class SingleImageDisplayActivity extends SlidingActivity implements GlideModule{
 
     private String image, info;
     private ImageView imageView;
+    private RotateLoading rotateLoading;
     @Override
     public void init(Bundle savedInstanceState) {
 
@@ -25,15 +27,24 @@ public class SingleImageDisplayActivity extends SlidingActivity implements Glide
         );
 
         setContent(R.layout.activity_single_image_display);
+        rotateLoading = findViewById(R.id.rotateloading);
+        rotateLoading.start();
         imageView = findViewById(R.id.singleImage);
+
+
         Bundle imagePrime = getIntent().getExtras();
+
         if(imagePrime != null){
             image = imagePrime.getString("ImageLink");
             info = imagePrime.getString("Info");
         }
         Glide.clear(imageView);
+
+
         Glide.with(getApplicationContext()).load(image).dontTransform().into(imageView);
+
         setTitle(info);
+        rotateLoading.stop();
 
     }
 

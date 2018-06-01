@@ -1,5 +1,6 @@
 package com.example.edison.x_fit;
 
+import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.input.InputManager;
@@ -10,6 +11,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -20,12 +26,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vstechlab.easyfonts.EasyFonts;
 
 public class RegisterActivity extends AppCompatActivity {
+    private KenBurnsView kbv;
     private Spinner mGender, mWeightUnit;
     private MaterialEditText mName, mEmail, mWeight, mAge, mHeightFt, mHeightIn, mHeightCM;
     private String genders[] = {"Male", "Female", "Other"};
@@ -36,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ActionProcessButton btnSignIn;
     private LinearLayout heightFt, heightIn, heightCm;
     private  Switch aSwitch;
+
     private boolean isItinCM;
     String previousFt, previousIn, previousCm;
     ArrayAdapter<String> adapter;
@@ -44,6 +56,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout_final);
         //mRegister = findViewById(R.id.buttonRegister);
+        kbv = findViewById(R.id.image_register);
+        RandomTransitionGenerator generator = new RandomTransitionGenerator(100000, new AnticipateInterpolator());
+        kbv.setTransitionGenerator(generator);
+        TextView title = findViewById(R.id.titleRegister);
+        title.setTypeface(EasyFonts.windSong(this));
         mGender  = findViewById(R.id.spinnerGender);
         mWeightUnit = findViewById(R.id.spinnerWeightUnit);
         mName = findViewById(R.id.editTextName);

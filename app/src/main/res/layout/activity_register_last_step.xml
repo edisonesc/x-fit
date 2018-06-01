@@ -6,7 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".RegisterLastStep"
     android:background="@color/colorPrimary">
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/image_register"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_register" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/black_overlay">
+
+        <TextView
+            android:id="@+id/titleRegister"
+            android:textSize="45dp"
+            android:text="Create an account"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
