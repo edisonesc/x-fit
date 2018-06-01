@@ -5,6 +5,7 @@
     <color name="colorAccent">#4fbdfb</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="semi_black_overlay">#d4000000</color>
     <color name="rounded_btn">#ffff</color>
     <color name="my_spinner_text_color">#fff</color>
 

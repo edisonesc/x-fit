@@ -2,6 +2,7 @@ package com.example.edison.x_fit;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,7 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
     Context myContext;
     ArrayList<String> mDataset, mKeys;
 
-
+    private  long mClicks = 0;
     public CustomRecyclerAdapter(Context context, ArrayList<String> mData, ArrayList<String> keys) {
         this.myContext = context;
         this.mDataset = mData;
@@ -107,6 +108,11 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mClicks < 3000) {
+                    return;
+                }
+                mClicks = SystemClock.elapsedRealtime();
+
                 Intent view = new Intent(myContext, SingleImageDisplayActivity.class);
                 view.putExtra("ImageLink", mDataset.get(position));
                 view.putExtra("Info", mKeys.get(position));
@@ -117,12 +123,7 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
         });
 
 
-        holder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
-            @Override
-            public void onDoubleClick(SwipeLayout layout, boolean surface) {
 
-            }
-        });
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override

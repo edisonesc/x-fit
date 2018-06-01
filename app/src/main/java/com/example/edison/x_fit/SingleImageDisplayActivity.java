@@ -20,9 +20,10 @@ public class SingleImageDisplayActivity extends SlidingActivity implements Glide
     public void init(Bundle savedInstanceState) {
 
         setPrimaryColors(
-                getResources().getColor(R.color.black_overlay),
+                getResources().getColor(R.color.semi_black_overlay),
                 getResources().getColor(R.color.colorPrimaryDark)
         );
+
         setContent(R.layout.activity_single_image_display);
         imageView = findViewById(R.id.singleImage);
         Bundle imagePrime = getIntent().getExtras();
