@@ -49,6 +49,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             textViewData = itemView.findViewById(R.id.text_data);
             buttonDelete = itemView.findViewById(R.id.delete);
             button = itemView.findViewById(R.id.trash);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -75,6 +76,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
     public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position){
         final String data = mDataset.get(position);
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        mItemManger.bindView(viewHolder.itemView, position);
         viewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
             public void onStartOpen(SwipeLayout layout) {
@@ -126,7 +128,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+
 
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -134,6 +136,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                 String uid = mUser.getUid();
                 String selectedForDel = mDataset.get(position);
 
+                mItemManger.removeShownLayouts(viewHolder.swipeLayout);
 
                 databaseReference.child("Users").child(uid).child("Workouts").child(selectedForDel).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -141,9 +144,8 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
                         if(task.isSuccessful()){
                             mDataset.remove(position);
                             notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, mDataset.size());
 
-
+                            notifyItemRangeChanged(position , mDataset.size());
 //                            Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -158,7 +160,7 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
         });
         viewHolder.textViewPos.setText((position + 1) + ".");
         viewHolder.textViewData.setText(data);
-        mItemManger.bindView(viewHolder.itemView, position);
+
 
     }
     @Override

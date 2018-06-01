@@ -102,11 +102,11 @@ public class WorkoutActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getKey();
-                int index = mWorkout.indexOf(value);
-                mWorkout.remove(index);
-                mAdapter.notifyDataSetChanged();
-             //   mAdapter.notifyItemRemoved(index);
+//                String value = dataSnapshot.getKey();
+//                int index = mWorkout.indexOf(value);
+//                mWorkout.remove(index );
+//                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyItemRemoved(index);
 
             }
 

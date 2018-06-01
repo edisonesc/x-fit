@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+import com.vstechlab.easyfonts.EasyFonts;
 
 import org.w3c.dom.Text;
 
@@ -22,11 +23,13 @@ import java.util.ArrayList;
 public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAdapter.MyViewHolder> {
     LayoutInflater inflater;
     Context myContext;
-    ArrayList<String> mDataset;
+    ArrayList<String> mDataset, mKeys;
 
-    public CustomRecyclerAdapter(Context context, ArrayList<String> mData) {
+
+    public CustomRecyclerAdapter(Context context, ArrayList<String> mData, ArrayList<String> keys) {
         this.myContext = context;
         this.mDataset = mData;
+        this.mKeys = keys;
         inflater = LayoutInflater.from(context);
     }
 
@@ -84,7 +87,7 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
         });
         mItemManger.bindView(holder.itemView,position);
         holder.position.setText((position + 1) + ".");
-        String images = mDataset.get(position);
+        holder.titleDate.setText(mKeys.get(position));
         Glide.clear(holder.image);
         if(!mDataset.isEmpty()){
                 Glide.with(myContext).load(mDataset.get(position)).centerCrop().into(holder.image);
@@ -105,14 +108,17 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
     class MyViewHolder extends RecyclerView.ViewHolder{
         SwipeLayout swipeLayout;
         Button delete;
-        TextView position;
+        TextView position, titleDate;
         ImageView image;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             swipeLayout =  itemView.findViewById(R.id.swipeGrid);
             delete = itemView.findViewById(R.id.trash);
             image = itemView.findViewById(R.id.grid_item_image);
             position = itemView.findViewById(R.id.position);
+            titleDate = itemView.findViewById(R.id.title);
+            titleDate.setTypeface(EasyFonts.walkwayBlack(myContext));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
