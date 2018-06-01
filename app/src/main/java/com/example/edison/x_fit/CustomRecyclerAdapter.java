@@ -148,10 +148,11 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
         });
         mItemManger.bindView(holder.itemView,position);
         holder.position.setText((position + 1) + ".");
-        holder.titleDate.setText(mKeys.get(position));
+
         Glide.clear(holder.image);
         if(!mDataset.isEmpty()){
                 Glide.with(myContext).load(mDataset.get(position)).centerCrop().into(holder.image);
+                    holder.titleDate.setText(mKeys.get(position));
         }
 
     }

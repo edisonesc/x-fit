@@ -18,11 +18,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                NutritionData nutritionData = new NutritionData();
-                return nutritionData;
-            case 1:
                 NutritionGraph nutritionGraph = new NutritionGraph();
                 return  nutritionGraph;
+
+            case 1:
+                NutritionData nutritionData = new NutritionData();
+                return nutritionData;
                 default:
                     return null;
         }

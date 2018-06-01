@@ -1,12 +1,19 @@
 package com.example.edison.x_fit;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
 
 public class NutritionActivity extends AppCompatActivity implements NutritionData.OnFragmentInteractionListener, NutritionGraph.OnFragmentInteractionListener {
@@ -21,15 +28,18 @@ public class NutritionActivity extends AppCompatActivity implements NutritionDat
 
 
 
+
         TabLayout tabLayout = findViewById(R.id.tabLayout);
+
+
         tabLayout.addTab(tabLayout.newTab().setText("Data"));
         tabLayout.addTab(tabLayout.newTab().setText("Graph"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getChildCount());
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
-        springIndicator.setViewPager(viewPager);
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -47,10 +57,11 @@ public class NutritionActivity extends AppCompatActivity implements NutritionDat
 
             }
         });
-
+        springIndicator.setViewPager(viewPager);
 
 
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
