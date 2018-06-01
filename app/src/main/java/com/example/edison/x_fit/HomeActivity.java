@@ -97,6 +97,13 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        mSleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this, SingleImageDisplayActivity.class);
+                startActivity(i);
+            }
+        });
     }
     @Override
     public void onStart() {

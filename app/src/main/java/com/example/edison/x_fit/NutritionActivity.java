@@ -10,15 +10,19 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
 
-public class NutritionActivity extends AppCompatActivity implements NutritionData.OnFragmentInteractionListener, NutritionGraph.OnFragmentInteractionListener {
+public class NutritionActivity extends AppCompatActivity implements NutritionData.OnFragmentInteractionListener, NutritionGraph.OnFragmentInteractionListener, NutritionTrack.OnFragmentInteractionListener{
     private ViewPager viewPager;
     private SpringIndicator springIndicator;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +33,14 @@ public class NutritionActivity extends AppCompatActivity implements NutritionDat
 
 
 
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
+       TabLayout tabLayout = findViewById(R.id.tabLayout);
 
 
         tabLayout.addTab(tabLayout.newTab().setText("Data"));
         tabLayout.addTab(tabLayout.newTab().setText("Graph"));
+        tabLayout.addTab(tabLayout.newTab().setText("Track"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
 
 
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -65,6 +71,7 @@ public class NutritionActivity extends AppCompatActivity implements NutritionDat
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
 
     }
 }

@@ -1,10 +1,14 @@
 package com.example.edison.x_fit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -92,6 +96,34 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
 
             }
         });
+
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent view = new Intent(myContext, SingleImageDisplayActivity.class);
+                view.putExtra("ImageLink", mDataset.get(position));
+                view.putExtra("Info", mKeys.get(position));
+                myContext.startActivity(view);
+                Toast.makeText(myContext, "touched", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        holder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
+            @Override
+            public void onDoubleClick(SwipeLayout layout, boolean surface) {
+
+            }
+        });
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,11 +204,12 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
         Button delete;
         TextView position, titleDate;
         ImageView image;
-
+        CardView card;
         public MyViewHolder(View itemView) {
             super(itemView);
             swipeLayout =  itemView.findViewById(R.id.swipeGrid);
             delete = itemView.findViewById(R.id.trash);
+            card = itemView.findViewById(R.id.cardClick);
             image = itemView.findViewById(R.id.grid_item_image);
             position = itemView.findViewById(R.id.position);
             titleDate = itemView.findViewById(R.id.title);

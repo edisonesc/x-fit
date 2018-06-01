@@ -26,8 +26,6 @@
 
 
 
-
-
     </android.support.v4.view.ViewPager>
     <github.chenupt.springindicator.SpringIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/indicator"
@@ -49,8 +47,12 @@
         app:siSelectedTextColor="@android:color/white"
         app:siTextColor="@color/colorPrimaryDark"
         app:siTextSize="18sp" />
+
     <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="57dp" />
+        android:layout_height="57dp"
+        app:tabIndicatorColor="#bf0a71"
+        android:id="@+id/tabLayout"></android.support.design.widget.TabLayout>
+
+
 </RelativeLayout>
