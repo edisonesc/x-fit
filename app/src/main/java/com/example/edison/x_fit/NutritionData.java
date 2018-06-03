@@ -7,6 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 /**
@@ -22,7 +32,10 @@ public class NutritionData extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private TextView bmi, bmr, calorieNeeds, idealWeight;
+    private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -64,7 +77,76 @@ public class NutritionData extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nutrition_data, container, false);
+        View view = inflater.inflate(R.layout.fragment_nutrition_data, container, false);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        String uid = mUser.getUid();
+//        final int age, heighFt, heightIn;
+//        double weight;
+//        String gender, weightUnit;
+
+            bmi = view.findViewById(R.id.bmiValue);
+            bmr = view.findViewById(R.id.bmrValue);
+            calorieNeeds = view.findViewById(R.id.calorieNeedsValue);
+            idealWeight = view.findViewById(R.id.idealWeightValue);
+
+        databaseReference.child("Users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int ageVal = dataSnapshot.child("Age").getValue(Integer.class);
+                int heightFt = dataSnapshot.child("Height Ft").getValue(Integer.class);
+                int heightIn = dataSnapshot.child("Height In").getValue(Integer.class);
+                double weight = dataSnapshot.child("Weight").getValue(Double.class);
+                String gender = dataSnapshot.child("Gender").getValue(String.class);
+                String weightUnit = dataSnapshot.child("WeightUnit").getValue(String.class);
+                double height = Double.parseDouble(String.valueOf(heightFt) + "." + String.valueOf(heightIn));
+                Double formulaBmr = 0d, formulaBmi = 0d;
+                int idealWeight = 0;
+
+                switch (gender){
+                    case "Male":
+                        formulaBmr = 66 + (13.75 * (weightUnit.equals("Kg") ? weight : weight * 2.2)) +
+                                (5 * (height * 30.48)) - (4.7 * ageVal);
+
+
+                        break;
+                    case "Female":
+                        formulaBmr = 655 + (9.6 * (weightUnit.equals("Kg") ? weight : weight * 2.2)) +
+                                (1.8 * (height * 30.48)) - (4.7 * ageVal);
+                        break;
+                    case "Other":
+                        break;
+                }
+
+                formulaBmi = (weightUnit.equals("Kg") ? weight : weight * 2.2) / height * 0.304;
+
+                bmi.setText(String.valueOf(formulaBmi));
+                bmr.setText(String.valueOf(formulaBmr));
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        bmi = view.findViewById(R.id.bmiValue);
+        bmr = view.findViewById(R.id.bmrValue);
+        calorieNeeds = view.findViewById(R.id.calorieNeedsValue);
+        idealWeight = view.findViewById(R.id.idealWeightValue);
+
+
+
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -40,14 +41,24 @@ public class SingleImageDisplayActivity extends SlidingActivity implements Glide
             info = imagePrime.getString("Info");
         }
         Glide.clear(imageView);
-
         imageView.setVisibility(View.VISIBLE);
         Glide.with(getApplicationContext()).load(image).dontTransform().into(imageView);
 
 
-        setTitle(info);
+
         rotateLoading.stop();
 
+
+        setTitle(info);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+
+
+        super.onResume();
     }
 
     @Override

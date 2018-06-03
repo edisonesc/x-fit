@@ -30,4 +30,14 @@
 
     </style>
 
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/ic_add_black_fab_24dp</item>
+        <item name="android:textColor">#ffff</item>
+    </style>
+    <style name="NavigationDrawerStyle">
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">@raw/ostrich_black</item>
+
+
+    </style>
 </resources>

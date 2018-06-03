@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -92,6 +93,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         permissionManager = new PermissionManager() {};
         permissionManager.checkAndRequestPermissions(this);
+
+
+
 
         databaseRef.child("Users").child(currentUserUid).addValueEventListener(new ValueEventListener() {
             @Override

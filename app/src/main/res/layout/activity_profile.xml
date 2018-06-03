@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
     tools:context=".ProfileActivity">
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -24,6 +31,7 @@
                 android:background="@android:color/transparent"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
+                android:id="@+id/relativeLayoutPicture"
                 android:layout_height="115dp">
 
 
@@ -44,6 +52,13 @@
                     android:background="#1E88E5"
                     materialdesign:animate="false"
                     materialdesign:iconDrawable="@drawable/ic_add_black_fab_24dp" />
+
+
+
+
+
+
+
 
             </RelativeLayout>
 
@@ -152,21 +167,27 @@
         </android.support.v7.widget.CardView>
     </RelativeLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
         android:layout_marginTop="50dp"
-        android:background="@color/colorPrimary"
+
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp">
 
+        <android.support.v7.widget.CardView
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <LinearLayout
+
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:paddingLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_height="match_parent">
             <ImageView
@@ -187,11 +208,15 @@
                 android:id="@+id/accountName"
                 />
         </LinearLayout>
-
-
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="3dp"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:paddingLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -214,6 +239,14 @@
                 android:id="@+id/accountAge"
                 />
         </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="3dp"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -239,6 +272,13 @@
                 android:id="@+id/accountGender"
                 />
         </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -264,12 +304,20 @@
                 android:id="@+id/accountWeight"
                 />
         </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="3dp"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:paddingLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             android:layout_height="match_parent">
             <ImageView
                 android:layout_width="30dp"
@@ -290,6 +338,7 @@
                 />
 
         </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
 
@@ -316,4 +365,56 @@
         app:layout_constraintVertical_bias="0.652" />
 
 </android.support.constraint.ConstraintLayout>
+
+
+
 </LinearLayout>
+
+
+    <!--<com.getbase.floatingactionbutton.FloatingActionsMenu-->
+        <!--android:id="@+id/right_labels"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:rotation="180"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.657"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.248"-->
+        <!--fab:fab_addButtonColorNormal="#fff"-->
+        <!--fab:fab_addButtonColorPressed="#fff"-->
+        <!--fab:fab_addButtonPlusIconColor="#000"-->
+        <!--fab:fab_addButtonSize="mini"-->
+        <!--fab:fab_labelStyle="@style/menu_labels_style"-->
+        <!--fab:fab_labelsPosition="right">-->
+
+        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:rotation="-95"-->
+            <!--fab:fab_addButtonSize="mini"-->
+            <!--fab:fab_colorNormal="#fff"-->
+            <!--fab:fab_colorPressed="#000"-->
+            <!--fab:fab_size="mini"-->
+
+            <!--/>-->
+
+        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:rotation="180"-->
+            <!--fab:fab_colorNormal="#fff"-->
+            <!--fab:fab_colorPressed="#000"-->
+            <!--fab:fab_size="mini" />-->
+
+    <!--</com.getbase.floatingactionbutton.FloatingActionsMenu>-->
+
+
+</RelativeLayout>

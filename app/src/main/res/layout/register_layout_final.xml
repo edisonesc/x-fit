@@ -100,6 +100,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true">
+
+            <Spinner
+                android:layout_marginTop="11dp"
+                android:id="@+id/spinnerGender"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                 />
             <TextView
                 android:gravity="center"
                 android:layout_width="match_parent"
@@ -107,12 +115,6 @@
                 android:textColor="#73000000"
                 android:text="Gender"
                 />
-            <Spinner
-                android:layout_marginTop="11dp"
-                android:id="@+id/spinnerGender"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                 />
         </RelativeLayout>
     </LinearLayout>
 
@@ -158,6 +160,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true">
+
+            <Spinner
+                android:layout_marginTop="11dp"
+                android:id="@+id/spinnerWeightUnit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
             <TextView
                 android:gravity="center"
                 android:layout_width="match_parent"
@@ -165,13 +174,6 @@
                 android:text="Unit"
                 android:textColor="#73000000"
                 />
-            <Spinner
-                android:layout_marginTop="11dp"
-                android:id="@+id/spinnerWeightUnit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-
         </RelativeLayout>
     </LinearLayout>
 

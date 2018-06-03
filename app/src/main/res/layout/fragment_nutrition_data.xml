@@ -3,15 +3,158 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
     tools:context=".NutritionData">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="100dp"
+      android:layout_marginStart="10dp"
+      android:orientation="vertical"
+      android:layout_marginEnd="10dp">
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
 
-        android:text="@string/hello_blank_fragment" />
+        android:elevation="8dp"
 
+        app:cardCornerRadius="6dp"
+        android:layout_height="70dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_marginStart="20dp"
+                android:layout_width="wrap_content"
+                android:text="BMI"
+                android:textColor="#fff"
+                android:gravity="center_vertical"
+                android:textSize="20sp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/bmiValue"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:gravity="right|center"
+                android:layout_marginEnd="20dp"
+                android:text="30"/>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+      <android.support.v7.widget.CardView
+          android:layout_marginTop="1dp"
+          android:layout_width="match_parent"
+          android:elevation="8dp"
+
+          app:cardCornerRadius="6dp"
+          android:layout_height="70dp">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimaryDark"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:layout_marginStart="20dp"
+                  android:layout_width="wrap_content"
+                  android:text="BMR"
+                  android:textColor="#fff"
+                  android:gravity="center_vertical"
+                  android:textSize="20sp"
+                  android:layout_height="match_parent" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:textColor="#fff"
+                  android:id="@+id/bmrValue"
+                  android:textSize="20sp"
+                  android:gravity="right|center"
+                  android:layout_marginEnd="20dp"
+                  android:text="30"/>
+
+          </LinearLayout>
+      </android.support.v7.widget.CardView>
+
+
+      <android.support.v7.widget.CardView
+          android:layout_marginTop="1dp"
+          android:layout_width="match_parent"
+          android:elevation="8dp"
+
+          app:cardCornerRadius="6dp"
+          android:layout_height="70dp">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimaryDark"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:layout_marginStart="20dp"
+                  android:layout_width="wrap_content"
+                  android:text="Calorie Needs"
+                  android:textColor="#fff"
+                  android:gravity="center_vertical"
+                  android:textSize="20sp"
+                  android:layout_height="match_parent" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:textColor="#fff"
+                  android:textSize="20sp"
+                  android:id="@+id/calorieNeedsValue"
+                  android:gravity="right|center"
+                  android:layout_marginEnd="20dp"
+                  android:text="30"/>
+
+          </LinearLayout>
+      </android.support.v7.widget.CardView>
+
+      <android.support.v7.widget.CardView
+          android:layout_marginTop="1dp"
+          android:layout_width="match_parent"
+          android:elevation="8dp"
+
+          app:cardCornerRadius="6dp"
+          android:layout_height="70dp">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimaryDark"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:layout_marginStart="20dp"
+                  android:layout_width="wrap_content"
+                  android:text="Ideal Weight"
+                  android:textColor="#fff"
+                  android:gravity="center_vertical"
+                  android:textSize="20sp"
+                  android:layout_height="match_parent" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:textColor="#fff"
+                  android:id="@+id/idealWeightValue"
+                  android:textSize="20sp"
+                  android:gravity="right|center"
+                    android:layout_marginEnd="20dp"
+                  android:text="30"/>
+
+          </LinearLayout>
+      </android.support.v7.widget.CardView>
+  </LinearLayout>
 </RelativeLayout>

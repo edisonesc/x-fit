@@ -1,5 +1,8 @@
 package com.example.edison.x_fit;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -8,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -44,7 +50,7 @@ public class NutritionGraph extends Fragment {
     PieChart pieChart = null;
     ArcProgressStackView arcProgressStackView = null;
     private OnFragmentInteractionListener mListener;
-
+    private int mCounter = 0;
     public NutritionGraph() {
         // Required empty public constructor
     }
@@ -104,15 +110,20 @@ public class NutritionGraph extends Fragment {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
 
         ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
-        models.add(new ArcProgressStackView.Model("Protein", 70, Color.BLACK, Color.parseColor("#8e0000")));
-        models.add(new ArcProgressStackView.Model("Carbs", 30, Color.BLACK, Color.parseColor("#8e0000")));
-        models.add(new ArcProgressStackView.Model("Carbs", 30, Color.BLACK, Color.parseColor("#8e0000")));
+        models.add(new ArcProgressStackView.Model("Protein", 70, Color.BLACK, Color.parseColor("#00695c")));
+        models.add(new ArcProgressStackView.Model("Carbs", 30, Color.BLACK, Color.parseColor("#005662")));
+        models.add(new ArcProgressStackView.Model("Carbs", 30, Color.BLACK, Color.parseColor("#006db3")));
         models.add(new ArcProgressStackView.Model("Overall", 35, Color.BLACK, Color.parseColor("#000a12")));
 
-
+        final ValueAnimator valueAnimator = ValueAnimator.ofFloat(1.0F, 105.0F);
+        valueAnimator.setDuration(800);
+        valueAnimator.setStartDelay(200);
+        valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+        valueAnimator.start();
 
 
         arcProgressStackView.setModels(models);
+
         ArrayList<PieEntry> values = new ArrayList<>();
         values.add(new PieEntry(34f, "Carbohydrates"));
         values.add(new PieEntry(70f, "Protein"));
@@ -123,7 +134,11 @@ public class NutritionGraph extends Fragment {
         PieDataSet dataSet = new PieDataSet(values, "Daily Intake") ;
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        dataSet.setColors(Color.parseColor("#29434e"),
+                Color.parseColor("#212121"),
+                Color.parseColor("#263238"),
+                Color.parseColor("#37474f")
+                );
         PieData data = new PieData(dataSet);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.WHITE);

@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="57dp"
         app:tabIndicatorColor="#bf0a71"
-        android:background="@color/black_overlay"
+        android:background="@color/semi_black_overlay"
         android:id="@+id/tabLayout"></android.support.design.widget.TabLayout>
 
 

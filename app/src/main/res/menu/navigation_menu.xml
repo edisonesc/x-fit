@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/browseWorkout"
+        android:title="Browse Workout"
+
+
+        />
+    <item android:id="@+id/customWorkout"
+        android:title="Add Custom Workout"/>
+    <item android:id="@+id/progressWorkout"
+        android:title="Progress"/>
+
+
+</menu>

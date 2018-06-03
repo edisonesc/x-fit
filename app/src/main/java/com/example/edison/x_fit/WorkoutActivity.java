@@ -1,18 +1,31 @@
 package com.example.edison.x_fit;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +43,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vstechlab.easyfonts.EasyFonts;
+import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,25 +52,34 @@ import java.util.Map;
 import java.util.Random;
 import java.util.jar.Attributes;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class WorkoutActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ArrayList<String> mWorkout = new ArrayList<>();
-    private TextView showEmptyList;
+    private TextView showEmptyList, title;
     private Context mContext = this;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private ListView mListView;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private ConstraintLayout constraintLayout;
-    private Button mAddWorkout;
 
+    private Button mAddWorkout;
+    ImageView hamburger;
+    ConstraintLayout constraintLayout;
+    ActionBarDrawerToggle mToggle;
+    DrawerLayout drawerLayout;
+
+
+    private static final long RIPPLE_DURATION = 250;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+        ButterKnife.bind(this);
         constraintLayout = findViewById(R.id.constraintLayout);
         recyclerView = findViewById(R.id.recycler_view);
 //        mListView = findViewById(R.id.listview);
@@ -66,10 +90,29 @@ public class WorkoutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
         mUser = mAuth.getCurrentUser();
+        title = findViewById(R.id.titleWorkout);
+        title.setTypeface(EasyFonts.ostrichBlack(this));
 //        animator = new SlideInLeftAnimator(new OvershootInterpolator(1f));
 //        recyclerView.setItemAnimator(animator);
         final String user = mUser.getUid();
         mAdapter = new RecyclerViewAdapter(mContext, mWorkout);
+        drawerLayout = findViewById(R.id.drawerlayout);
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+
+
+
+
+
+
+//
+//        new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.content_ham), contentHamburger)
+//                .setStartDelay(RIPPLE_DURATION)
+//                .setClosedOnStart(true)
+//                .build();
+
+
 
         recyclerView.setAdapter(mAdapter);
         databaseReference.child("Users").child(user).child("Workouts").addChildEventListener(new ChildEventListener() {
@@ -182,7 +225,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
     }
 
-
+//    public void browseWorkoutClicked(){
+//        Toast.makeText(mContext, "jasodj", Toast.LENGTH_SHORT).show();
+//    }
     RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -194,5 +239,23 @@ public class WorkoutActivity extends AppCompatActivity {
             super.onScrolled(recyclerView, dx, dy);
         }
     };
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        
+        switch(id){
+            case R.id.browseWorkout:
+                Toast.makeText(mContext, "asjajd", Toast.LENGTH_SHORT).show();
+
+                break;
+                
+        }
+        return super.onOptionsItemSelected(item);
+
+
+    }
 
 }
