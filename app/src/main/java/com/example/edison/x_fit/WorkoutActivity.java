@@ -77,6 +77,7 @@ public class WorkoutActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private Button mAddWorkout;
     boolean isShow = false;
+    KenBurnsView coverPhoto;
     ImageView hamburger;
     ConstraintLayout constraintLayout;
     ActionBarDrawerToggle mToggle;
@@ -116,16 +117,19 @@ public class WorkoutActivity extends AppCompatActivity {
                 hamburger.startAnimation(rotate);
                 mUsername = findViewById(R.id.currentUsername);
                 userProfilePic = getWindow().getDecorView().findViewById(R.id.currentUserPicture);
-                KenBurnsView coverPhoto = findViewById(R.id.image);
+                coverPhoto = findViewById(R.id.image);
                 databaseReference.child("Users").child(user).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String userPicture = dataSnapshot.child("ProfileImage").getValue(String.class);
                         String userUsername = dataSnapshot.child("Username").getValue(String.class);
-
+                        String coverPhotoUrl = dataSnapshot.child("Cover Photo").getValue(String.class);
                         Glide.clear(userProfilePic);
                         if(userPicture != null){
                             Glide.with(getApplication()).load(userPicture).centerCrop().into(userProfilePic);
+                        }
+                        if(coverPhoto != null){
+                            Glide.with(getApplication()).load(coverPhotoUrl).into(coverPhoto);
                         }
                         mUsername.setText(userUsername);
                         mUsername.setTypeface(EasyFonts.caviarDreams(getApplicationContext()));

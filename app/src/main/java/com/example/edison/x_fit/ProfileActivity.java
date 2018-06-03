@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.bumptech.glide.Glide;
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -67,6 +68,8 @@ public class ProfileActivity extends AppCompatActivity {
     private String profileImageUrl;
     PermissionManager permissionManager;
 
+    com.getbase.floatingactionbutton.FloatingActionButton  pickImage, uploadImage;
+    KenBurnsView coverPhoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +91,15 @@ public class ProfileActivity extends AppCompatActivity {
         userProfilePicture = findViewById(R.id.userProfilePicture);
         accountGenderIcon = findViewById(R.id.accountGenderIcon);
         dialog = new ProgressDialog(this, "Uploading");
+        pickImage = findViewById(R.id.pickFromDatas);
+        uploadImage = findViewById(R.id.pickFromGallery);
+        coverPhoto = findViewById(R.id.imageCover);
 
         currentUserUid = mAuth.getCurrentUser().getUid();
 
         permissionManager = new PermissionManager() {};
         permissionManager.checkAndRequestPermissions(this);
+
 
 
 
@@ -112,6 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String currFollowers = String.valueOf(dataSnapshot.child("Social").child("Followers").getChildrenCount());
                 String currFollowing = String.valueOf(dataSnapshot.child("Social").child("Following").getChildrenCount());
                 String currProfilePicUrl = dataSnapshot.child("ProfileImage").getValue(String.class);
+                String currCoverPhotoUrl = dataSnapshot.child("Cover Photo").getValue(String.class);
                 switch (gender){
                     case "Male":
                         accountGenderIcon.setBackgroundResource(R.drawable.male_2);
@@ -137,6 +145,9 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                 }
+                if(currCoverPhotoUrl != null){
+                    Glide.with(getApplication()).load(currProfilePicUrl).into(coverPhoto);
+                }
 
                 accountAge.setText(age);
                 accountUsername.setText(username);
@@ -158,6 +169,15 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+
+        uploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 2);
+            }
+        });
         setNewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,6 +187,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -180,16 +202,12 @@ public class ProfileActivity extends AppCompatActivity {
                 SimpleDateFormat dtf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
                 SimpleDateFormat dtfRef = new SimpleDateFormat("MM dd yyyy");
                 final Date date = new Date();
-
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
                 calendar.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
-
                 final String seconds = String.valueOf(calendar.get(Calendar.SECOND));
                 final String theDate = String.valueOf(calendar.get(Calendar.MONTH));
                 final String dateRef = String.valueOf(dtfRef.format(date));
-
-
                 final String compatDate = String.valueOf(dtf.format(date)).replace('/', '-');
                 StorageReference filepath = mStorage.child("Users").child(currentUserUid).child("Profile Images").child(String.valueOf(compatDate + "_" + System.currentTimeMillis() + "." + getImageExt(resultUri)));
 
@@ -200,10 +218,6 @@ public class ProfileActivity extends AppCompatActivity {
                         Uri downloadUri = taskSnapshot.getDownloadUrl();
                         userImage.put("ProfileImage", downloadUri.toString());
                         databaseRef.child("Users").child(currentUserUid).updateChildren(userImage);
-
-
-
-
                         userImages.put((theDate.length() == 1 ? "0"+theDate: theDate)
                                 + "" + dateRef.substring(2, dateRef.length()) +" "+  (seconds.length()== 1 ? "0" + seconds : seconds), downloadUri.toString());
                         databaseRef.child("Users").child(currentUserUid).child("Social").child("Images").updateChildren(userImages);
@@ -215,15 +229,59 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this, "Failed to change profile picture", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
-
             }
             catch (Exception e){
                 dialog.dismiss();
                 Toast.makeText(this, "Error: Please check permissions", Toast.LENGTH_SHORT).show();
+            }
+        }
 
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 2 && resultCode == RESULT_OK){
+            try {
+                dialog.show();
+                Uri imageUri = data.getData();
+                final Map userImage = new HashMap(), userImages = new HashMap(), userCoverPhoto = new HashMap();
+                resultUri = imageUri;
+                SimpleDateFormat dtf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                SimpleDateFormat dtfRef = new SimpleDateFormat("MM dd yyyy");
+                final Date date = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+                final String seconds = String.valueOf(calendar.get(Calendar.SECOND));
+                final String theDate = String.valueOf(calendar.get(Calendar.MONTH));
+                final String dateRef = String.valueOf(dtfRef.format(date));
+                final String compatDate = String.valueOf(dtf.format(date)).replace('/', '-');
+                final String photoName = String.valueOf(compatDate + "_" + System.currentTimeMillis() + "." + getImageExt(resultUri));
+                StorageReference filepath = mStorage.child("Users").child(currentUserUid).child("Cover Photo").child(photoName);
+
+                filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        userProfilePicture.setImageURI(resultUri);
+                        Uri downloadUri = taskSnapshot.getDownloadUrl();
+                        userImage.put("Cover Photo", downloadUri.toString());
+                        databaseRef.child("Users").child(currentUserUid).updateChildren(userImage);
+                        String keyDate = (theDate.length() == 1 ? "0"+theDate: theDate)
+                                + "" + dateRef.substring(2, dateRef.length()) +" "+  (seconds.length()== 1 ? "0" + seconds : seconds);
+                        userImages.put(keyDate, downloadUri.toString());
+                        databaseRef.child("Users").child(currentUserUid).child("Social").child("Images").updateChildren(userImages);
+//
+//                        userCoverPhoto.put(keyDate, photoName);
+//                        databaseRef.child("Users").child(currentUserUid).child("Social").child("Photo Names").updateChildren(userCoverPhoto);
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ProfileActivity.this, "Failed to change cover photo", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            catch (Exception e){
+                dialog.dismiss();
+                Toast.makeText(this, "Error: Please check permissions", Toast.LENGTH_SHORT).show();
             }
         }
     }

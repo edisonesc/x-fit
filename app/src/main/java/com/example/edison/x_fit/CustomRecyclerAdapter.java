@@ -22,11 +22,18 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.vstechlab.easyfonts.EasyFonts;
 
 import org.w3c.dom.Text;
@@ -42,8 +49,10 @@ import java.util.GregorianCalendar;
 public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAdapter.MyViewHolder> {
     LayoutInflater inflater;
     Context myContext;
+    FirebaseStorage firebaseStorage;
     ArrayList<String> mDataset, mKeys;
-
+    String finalResult;
+    String coverImageNameForDel;
     private  long mClicks = 0;
     public CustomRecyclerAdapter(Context context, ArrayList<String> mData, ArrayList<String> keys) {
         this.myContext = context;
@@ -134,25 +143,60 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
                 String uid = mUser.getUid();
                 final String selectedForDel = mKeys.get(position);
 
-
-
                 final String month = selectedForDel.substring(0, 3); // jun
-                int day = Integer.valueOf(selectedForDel.substring(4, 6)); // 01
-                int year = Integer.valueOf(selectedForDel.substring(8, 11)); //2034
-                int seconds = Integer.valueOf(selectedForDel.substring(12,14));
+//                int day = Integer.valueOf(selectedForDel.substring(4, 6)); // 01
+//                int year = Integer.valueOf(selectedForDel.substring(8, 11)); //2034
+//                int seconds;
+//                try{
+//                seconds = Integer.valueOf(selectedForDel.substring(12,14));}
+//                catch (StringIndexOutOfBoundsException e){
+//                    seconds = Integer.valueOf(selectedForDel.substring(12,13));
+//
+//
+//                }
                 Date date = null;
                 try {
                     date = new SimpleDateFormat("MMM").parse(month);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                firebaseStorage = FirebaseStorage.getInstance();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
                 final int monthNum = calendar.get(Calendar.MONTH);
                 final String monthNumConv = String.valueOf(monthNum).length() == 1 ? "0" + monthNum : String.valueOf( monthNum);
 
-                final String finalResult = selectedForDel.replace(getMonth(monthNum).substring(0,3), monthNumConv);
+                finalResult = selectedForDel.replace(getMonth(monthNum).substring(0,3), monthNumConv);
 
+                databaseReference.child("Users").child(uid).child("Social").child("Images").child(finalResult).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String url = dataSnapshot.getValue(String.class);
+                        try {
+                        StorageReference storageReference = firebaseStorage.getReferenceFromUrl(url);
+                            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(myContext, "Totally deleted " + finalResult, Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(myContext, "Failed deletion of " + finalResult, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        catch (IllegalArgumentException e){
+                            Toast.makeText(myContext, "Data does not exist " + finalResult + " " + url, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 databaseReference.child("Users").child(uid).child("Social").child("Images").child(finalResult).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -177,8 +221,12 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
                 });
 
 
+
             }
         });
+
+
+
         mItemManger.bindView(holder.itemView,position);
         holder.position.setText((position + 1) + ".");
 
@@ -187,6 +235,8 @@ public class CustomRecyclerAdapter extends RecyclerSwipeAdapter<CustomRecyclerAd
                 Glide.with(myContext).load(mDataset.get(position)).centerCrop().into(holder.image);
                     holder.titleDate.setText(mKeys.get(position));
         }
+
+
 
     }
 
