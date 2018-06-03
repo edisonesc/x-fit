@@ -129,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
                 accountFollowers.setText(currFollowers.equals(null) ? "0" : currFollowers);
                 accountFollowing.setText(currFollowing.equals(null) ? "0" : currFollowing);
 
-                Glide.clear(userProfilePicture);
+
                 if(currProfilePicUrl != null){
 
 

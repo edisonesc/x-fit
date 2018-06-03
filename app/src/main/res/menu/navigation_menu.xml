@@ -10,6 +10,8 @@
         android:title="Add Custom Workout"/>
     <item android:id="@+id/progressWorkout"
         android:title="Progress"/>
+    <item android:id="@+id/myWorkouts"
+        android:title="My Workouts"/>
 
 
 </menu>

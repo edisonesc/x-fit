@@ -58,6 +58,7 @@ dependencies {
     implementation 'devlight.io:arcprogressstackview:1.0.4'
     implementation 'com.github.Yalantis:GuillotineMenu-Android:1.2'
     implementation 'com.jakewharton:butterknife:8.0.0'
+    implementation  'com.github.siyamed:android-shape-imageview:0.9.3@aar'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

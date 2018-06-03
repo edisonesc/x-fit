@@ -37,6 +37,10 @@
     <style name="NavigationDrawerStyle">
         <item name="android:textSize">30sp</item>
         <item name="android:fontFamily">@raw/ostrich_black</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+
 
 
     </style>

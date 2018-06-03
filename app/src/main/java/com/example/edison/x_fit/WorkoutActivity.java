@@ -2,6 +2,7 @@ package com.example.edison.x_fit;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -15,12 +16,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,8 +36,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,21 +66,21 @@ import butterknife.ButterKnife;
 public class WorkoutActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ArrayList<String> mWorkout = new ArrayList<>();
-    private TextView showEmptyList, title;
+    private TextView showEmptyList, title, mUsername;
     private Context mContext = this;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
+
+    private ImageView userProfilePic;
     private ListView mListView;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
     private Button mAddWorkout;
+    boolean isShow = false;
     ImageView hamburger;
     ConstraintLayout constraintLayout;
     ActionBarDrawerToggle mToggle;
     DrawerLayout drawerLayout;
-
-
     private static final long RIPPLE_DURATION = 250;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,30 +97,116 @@ public class WorkoutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
         mUser = mAuth.getCurrentUser();
-        title = findViewById(R.id.titleWorkout);
+
+        title = getWindow().getDecorView().findViewById(R.id.titleWorkout);
+
         title.setTypeface(EasyFonts.ostrichBlack(this));
 //        animator = new SlideInLeftAnimator(new OvershootInterpolator(1f));
 //        recyclerView.setItemAnimator(animator);
         final String user = mUser.getUid();
         mAdapter = new RecyclerViewAdapter(mContext, mWorkout);
         drawerLayout = findViewById(R.id.drawerlayout);
-        mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,R.string.close);
+
+
+
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,R.string.close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
+                hamburger.startAnimation(rotate);
+                mUsername = findViewById(R.id.currentUsername);
+                userProfilePic = getWindow().getDecorView().findViewById(R.id.currentUserPicture);
+                KenBurnsView coverPhoto = findViewById(R.id.image);
+                databaseReference.child("Users").child(user).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String userPicture = dataSnapshot.child("ProfileImage").getValue(String.class);
+                        String userUsername = dataSnapshot.child("Username").getValue(String.class);
+
+                        Glide.clear(userProfilePic);
+                        if(userPicture != null){
+                            Glide.with(getApplication()).load(userPicture).centerCrop().into(userProfilePic);
+                        }
+                        mUsername.setText(userUsername);
+                        mUsername.setTypeface(EasyFonts.caviarDreams(getApplicationContext()));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                userProfilePic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
+                super.onDrawerOpened(drawerView);
+
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if(slideOffset == 0.000005f){
+                    Toast.makeText(mContext, "3333333", Toast.LENGTH_SHORT).show();
+                }
+                else if(slideOffset == 10){
+
+                    Toast.makeText(mContext, "sadasdasdasd", Toast.LENGTH_SHORT).show();
+                }
+                super.onDrawerSlide(drawerView, slideOffset);
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
+                hamburger.startAnimation(rotate);
+                super.onDrawerClosed(drawerView);
+
+            }
+
+            @Override
+            public boolean onOptionsItemSelected(MenuItem item) {
+
+                switch (item.getItemId()){
+
+                    case R.id.browseWorkout:
+                        Toast.makeText(mContext, "hjfiwsdjf", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        return super.onOptionsItemSelected(item);
+                }
+
+
+
+
+
+            }
+        };
         drawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
+        hamburger = findViewById(R.id.content_ham);
 
+        hamburger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if(isShow == false){
 
+                drawerLayout.openDrawer(Gravity.LEFT);
+                }
+                else{
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                }
+                }
 
-
-//
-//        new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.content_ham), contentHamburger)
-//                .setStartDelay(RIPPLE_DURATION)
-//                .setClosedOnStart(true)
-//                .build();
-
-
-
+        });
         recyclerView.setAdapter(mAdapter);
         databaseReference.child("Users").child(user).child("Workouts").addChildEventListener(new ChildEventListener() {
             @Override
@@ -129,10 +222,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 }
 
                 mAdapter.notifyDataSetChanged();
-               // mAdapter.notifyItemChanged(index);
-
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String value = dataSnapshot.getKey();
@@ -165,6 +255,7 @@ public class WorkoutActivity extends AppCompatActivity {
         });
 
 
+
         databaseReference.child("Users").child(user).child("Workouts").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -182,6 +273,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
             }
         });
+
 
 
 
@@ -242,20 +334,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-        int id = item.getItemId();
-        
-        switch(id){
-            case R.id.browseWorkout:
-                Toast.makeText(mContext, "asjajd", Toast.LENGTH_SHORT).show();
-
-                break;
-                
-        }
-        return super.onOptionsItemSelected(item);
-
-
+        return true;
     }
 
 }
