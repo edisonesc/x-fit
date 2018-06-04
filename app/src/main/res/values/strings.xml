@@ -10,7 +10,19 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="weightUnit">
 
+        <item>Kg</item>
+        <item>lbs</item>
+
+    </string-array>
+
+    <string-array name="heightUnit">
+
+        <item>Ft</item>
+        <item>cm</item>
+
+    </string-array>
     <string name="fragmentData">Data</string>
     <string name="fragmentGraph">Graph</string>
     <string name="open">Open</string>

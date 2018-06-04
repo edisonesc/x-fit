@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class SettingsActivity extends AppCompatActivity {
-    LinearLayout mLogout, mDeleteAccount;
+    LinearLayout mLogout, mDeleteAccount, mEditProfile;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -34,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         mLogout = findViewById(R.id.settingsLogout);
         mAuth = FirebaseAuth.getInstance();
+        mEditProfile = findViewById(R.id.setttingsEditProfile);
         mDeleteAccount = findViewById(R.id.settingsDelete);
         databaseRef = FirebaseDatabase.getInstance().getReference();
         mUser = mAuth.getCurrentUser();
@@ -142,7 +143,15 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+        mEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SettingsActivity.this, EditProfileActivity.class);
+                startActivity(i);
+            }
+        });
     }
+
 
     private void updateUI() {
         Toast.makeText(this, "User is logged out", Toast.LENGTH_SHORT).show();

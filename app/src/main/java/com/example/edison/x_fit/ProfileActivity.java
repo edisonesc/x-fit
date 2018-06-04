@@ -1,7 +1,9 @@
 package com.example.edison.x_fit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -28,6 +30,7 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.ProgressDialog;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +47,7 @@ import com.google.firebase.storage.UploadTask;
 import com.karan.churi.PermissionManager.PermissionManager;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -71,9 +75,11 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
     private MaterialDialog materialDialog;
     private ProgressDialog dialog;
     private String profileImageUrl;
+    private boolean isCamera;
     PermissionManager permissionManager;
 
     com.getbase.floatingactionbutton.FloatingActionButton  pickImageFromGallery, uploadImage;
+    FloatingActionsMenu floatingActionsMenu;
     KenBurnsView coverPhoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +105,7 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
         pickImageFromGallery = findViewById(R.id.pickFromDatas);
         uploadImage = findViewById(R.id.pickFromGallery);
         coverPhoto = findViewById(R.id.imageCover);
-
+        floatingActionsMenu = findViewById(R.id.right_labels);
         currentUserUid = mAuth.getCurrentUser().getUid();
 
         permissionManager = new PermissionManager() {};
@@ -189,9 +195,9 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
         setNewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, 1);
+
+
+                startDialog();
             }
         });
 
@@ -204,6 +210,39 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
             }
         });
     }
+    private void startDialog() {
+
+        materialDialog = new MaterialDialog(ProfileActivity.this)
+
+                .setMessage("Choose image from")
+                .setPositiveButton("Gallery", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isCamera = false;
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType("image/*");
+                        startActivityForResult(intent, 1);
+                        materialDialog.dismiss();
+                    }
+                }).setNegativeButton("Camera", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        isCamera = true;
+                        startActivityForResult(intent, 1);
+                        materialDialog.dismiss();
+                    }
+                });
+        materialDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                materialDialog.dismiss();
+            }
+        });
+        materialDialog.show();
+
+
+    }
 
 
 
@@ -213,7 +252,8 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
         if(requestCode == 1 && resultCode == RESULT_OK){
             try {
                 dialog.show();
-                Uri imageUri = data.getData();
+                Uri imageUri;
+                imageUri = data.getData();
                 final Map userImage = new HashMap(), userImages = new HashMap();
                 resultUri = imageUri;
                 SimpleDateFormat dtf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
@@ -257,7 +297,10 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
         if(requestCode == 2 && resultCode == RESULT_OK){
             try {
                 dialog.show();
-                Uri imageUri = data.getData();
+                Uri imageUri;
+
+                imageUri= data.getData();
+
                 final Map userImage = new HashMap(), userImages = new HashMap(), userCoverPhoto = new HashMap();
                 resultUri = imageUri;
                 SimpleDateFormat dtf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
@@ -288,6 +331,7 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
 //                        userCoverPhoto.put(keyDate, photoName);
 //                        databaseRef.child("Users").child(currentUserUid).child("Social").child("Photo Names").updateChildren(userCoverPhoto);
                         dialog.dismiss();
+                        floatingActionsMenu.collapse();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -305,9 +349,11 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
 
 
     public String getImageExt(Uri uri){
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
+            ContentResolver contentResolver = getContentResolver();
+            MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+            return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
     }
 
     @Override

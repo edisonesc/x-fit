@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:id="@+id/editTextName"
+        android:layout_height="69dp"
+
+        app:met_primaryColor="#fff"
+
+        app:met_baseColor="#e7e2e2"
+        app:met_floatingLabel="highlight"
+        android:gravity="center"
+        app:met_floatingLabelText="New name"
+
+        android:hint="Enter name"/>
+
+</LinearLayout>

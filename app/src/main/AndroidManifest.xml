@@ -54,8 +54,14 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Sliding.Light"
             android:value="GlideModule" />
-        <activity android:name=".SettingsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity android:name=".AccountSettingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
     </application>
 
 </manifest>

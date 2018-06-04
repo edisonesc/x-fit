@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+
+        android:layout_marginTop="1dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/editTextWeight"
+        android:layout_height="69dp"
+        android:layout_weight="1"
+        app:met_primaryColor="#fff"
+        android:inputType="numberDecimal"
+        app:met_baseColor="#e7e2e2"
+        app:met_floatingLabel="highlight"
+        android:gravity="center"
+        app:met_floatingLabelText="New name"
+
+        android:hint="Enter weight"/>
+    <Spinner
+
+        android:id="@+id/spinnerGenderEdit"
+        android:layout_width="wrap_content"
+        android:entries="@array/weightUnit"
+        android:textAlignment="center"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+        android:layout_height="69dp"
+        />
+
+</LinearLayout>
