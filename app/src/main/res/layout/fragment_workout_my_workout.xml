@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".WorkoutMyWorkout">
+
+    <!-- TODO: Update blank fragment layout -->
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+
+      <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/recycler_view"
+
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentTop="true"
+
+          android:background="#d70a0a"
+
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="1.0"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.0">
+
+
+      </android.support.v7.widget.RecyclerView>
+
+
+      <android.support.constraint.ConstraintLayout
+          android:id="@+id/constraintLayout"
+          android:layout_width="match_parent"
+          android:layout_height="70dp"
+
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentStart="true"
+          android:background="@color/colorPrimary"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?android:attr/selectableItemBackground"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+
+
+          app:layout_constraintHorizontal_bias="1.0"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintVertical_bias="1.0"
+          app:layout_goneMarginBottom="8dp">
+
+          <ImageView
+              android:id="@+id/imageView2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_centerVertical="true"
+
+              android:layout_marginBottom="8dp"
+              android:layout_marginEnd="260dp"
+              android:layout_marginStart="8dp"
+              android:layout_marginTop="16dp"
+              android:background="@drawable/ic_add_black_24dp"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintHorizontal_bias="1.0"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent" />
+
+          <Button
+
+              android:id="@+id/button8"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+              android:layout_marginTop="8dp"
+              android:background="@android:color/transparent"
+              android:clickable="true"
+              android:focusable="true"
+              android:foreground="?android:attr/selectableItemBackground"
+              android:text="Add workout"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:textColor="#fff"
+              app:layout_constraintHorizontal_bias="0.0"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintVertical_bias="0.0" />
+
+      </android.support.constraint.ConstraintLayout>
+
+      <TextView
+          android:id="@+id/emptyWorkout"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+
+          android:layout_alignParentTop="true"
+            android:textColor="#c1c4baba"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="247dp"
+          android:text="No Workouts Added"
+          android:textSize="30sp"
+          app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.496"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.517" />
+
+  </RelativeLayout>
+
+</FrameLayout>

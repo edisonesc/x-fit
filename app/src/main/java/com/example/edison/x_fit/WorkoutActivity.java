@@ -68,7 +68,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WorkoutActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, WorkoutBrowse.OnFragmentInteractionListener{
+public class WorkoutActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, WorkoutBrowse.OnFragmentInteractionListener
+        , WorkoutMyWorkout.OnFragmentInteractionListener, WorkoutCustom.OnFragmentInteractionListener,
+        WorkoutProgress.OnFragmentInteractionListener
+
+
+
+{
     private DatabaseReference databaseReference;
     private ArrayList<String> mWorkout = new ArrayList<>();
     private TextView showEmptyList, title, mUsername;
@@ -95,14 +101,14 @@ public class WorkoutActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_workout);
         ButterKnife.bind(this);
         constraintLayout = findViewById(R.id.constraintLayout);
-        recyclerView = findViewById(R.id.recycler_view);
+//        recyclerView = findViewById(R.id.recycler_view);
 //        mListView = findViewById(R.id.listview);
-        showEmptyList = findViewById(R.id.emptyWorkout);
-        mAddWorkout = findViewById(R.id.button8);
+//        showEmptyList = findViewById(R.id.emptyWorkout);
+//        mAddWorkout = findViewById(R.id.button8);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
         mUser = mAuth.getCurrentUser();
         title = getWindow().getDecorView().findViewById(R.id.titleWorkout);
         navigationView = findViewById(R.id.nav_view);
@@ -111,14 +117,20 @@ public class WorkoutActivity extends AppCompatActivity implements NavigationView
 //        animator = new SlideInLeftAnimator(new OvershootInterpolator(1f));
 //        recyclerView.setItemAnimator(animator);
         final String user = mUser.getUid();
-        mAdapter = new RecyclerViewAdapter(mContext, mWorkout);
+//        mAdapter = new RecyclerViewAdapter(mContext, mWorkout);
         drawerLayout = findViewById(R.id.drawerlayout);
+        android.support.v4.app.Fragment fragment = new WorkoutMyWorkout();
 
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.replace(R.id.my_pager, fragment);
+        fragmentTransaction.commit();
 
         mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,R.string.close){
             @Override
             public void onDrawerOpened(View drawerView) {
+
                 navigationView.bringToFront();
                 navigationView.requestLayout();
                 Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
@@ -135,10 +147,12 @@ public class WorkoutActivity extends AppCompatActivity implements NavigationView
                         Glide.clear(userProfilePic);
                         if(userPicture != null){
                             Glide.with(getApplication()).load(userPicture).centerCrop().into(userProfilePic);
+
                         }
                         if(coverPhoto != null){
                             Glide.with(getApplication()).load(coverPhotoUrl).into(coverPhoto);
                         }
+
                         mUsername.setText(userUsername);
                         mUsername.setTypeface(EasyFonts.caviarDreams(getApplicationContext()));
                     }
@@ -163,13 +177,7 @@ public class WorkoutActivity extends AppCompatActivity implements NavigationView
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if(slideOffset == 0.000005f){
-                    Toast.makeText(mContext, "3333333", Toast.LENGTH_SHORT).show();
-                }
-                else if(slideOffset == 10){
 
-                    Toast.makeText(mContext, "sadasdasdasd", Toast.LENGTH_SHORT).show();
-                }
                 super.onDrawerSlide(drawerView, slideOffset);
 
             }
@@ -219,130 +227,10 @@ public class WorkoutActivity extends AppCompatActivity implements NavigationView
                 }
 
         });
-        recyclerView.setAdapter(mAdapter);
-        databaseReference.child("Users").child(user).child("Workouts").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Object value = dataSnapshot.getKey();
-                mWorkout.add(String.valueOf(value));
-                int index = mWorkout.indexOf(value);
-                if(mWorkout.isEmpty()){
-                    showEmptyList.setVisibility(View.VISIBLE);
-                }
-                else {
-                    showEmptyList.setVisibility(View.INVISIBLE);
-                }
-
-                mAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String value = dataSnapshot.getKey();
-                int index = mWorkout.indexOf(value);
-                mWorkout.set(index, value);
-               // mAdapter.notifyItemChanged(index);
-                mAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                String value = dataSnapshot.getKey();
-//                int index = mWorkout.indexOf(value);
-//                mWorkout.remove(index );
-//                mAdapter.notifyDataSetChanged();
-//                mAdapter.notifyItemRemoved(index);
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-        databaseReference.child("Users").child(user).child("Workouts").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue() == null){
-                    showEmptyList.setVisibility(View.VISIBLE);
-                }
-                else{
-                    showEmptyList.setVisibility(View.INVISIBLE);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
-
-
-        recyclerView.setOnScrollListener(onScrollListener);
-        //mAdapter.setMode(Attributes.);
-
-
-
-
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
-//            }
-//        });
-
-
-        mAddWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "button clicked", Toast.LENGTH_SHORT).show();
-                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-                String random = "1234567890ABCDEFGHIJKLMNOPQR";
-                Random r = new Random();
-                final String  charS = String.valueOf(random.charAt(r.nextInt(random.length())) + " SECT");
-                Map workoutAdd = new HashMap();
-                workoutAdd.put(charS, true);
-                dbRef.child("Users").child(user).child("Workouts").updateChildren(workoutAdd).addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
-                            mAdapter.notifyDataSetChanged();
-                            Toast.makeText(mContext, charS, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        });
 
     }
 
-//    public void browseWorkoutClicked(){
-//        Toast.makeText(mContext, "jasodj", Toast.LENGTH_SHORT).show();
-//    }
-    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
 
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-        }
-    };
 
 
     @Override
@@ -361,22 +249,35 @@ public class WorkoutActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         drawerLayout.closeDrawers();
-        android.support.v4.app.Fragment fragment = new WorkoutBrowse();
-        if(id == R.id.customWorkout){
-           //fragment = new NutritionData();
+        android.support.v4.app.Fragment fragment = null;
+
+        switch (id){
+            case R.id.browseWorkout:
+
+            case R.id.customWorkout:
+
+            case R.id.progressWorkout:
+
+            case R.id.myWorkouts:
+
+
+        }
+        if(id == R.id.browseWorkout ){
+            fragment = new WorkoutBrowse();
+        }
+        else if(id == R.id.customWorkout){
+            fragment = new WorkoutCustom();
 
         }
         else if(id == R.id.progressWorkout){
-            Toast.makeText(mContext, "CLCICKE PRogress workout", Toast.LENGTH_SHORT).show();
+            fragment = new WorkoutProgress();
         }
-        else  if(id == R.id.myWorkouts){
-            Toast.makeText(mContext, "YOUR WORKOUTs", Toast.LENGTH_SHORT).show();
+        else if(id == R.id.myWorkouts){
+            fragment = new WorkoutMyWorkout();
         }
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ViewPager viewPager = findViewById(R.id.my_pager);
-        viewPager.removeAllViews();
-//        fragmentTransaction.add(R.id.my_pager, fragment);
+
         fragmentTransaction.replace(R.id.my_pager, fragment);
         fragmentTransaction.commit();
 
