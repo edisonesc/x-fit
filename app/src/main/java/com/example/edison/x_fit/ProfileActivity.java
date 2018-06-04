@@ -73,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
     private String profileImageUrl;
     PermissionManager permissionManager;
 
-    com.getbase.floatingactionbutton.FloatingActionButton  pickImage, uploadImage;
+    com.getbase.floatingactionbutton.FloatingActionButton  pickImageFromGallery, uploadImage;
     KenBurnsView coverPhoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
         userProfilePicture = findViewById(R.id.userProfilePicture);
         accountGenderIcon = findViewById(R.id.accountGenderIcon);
         dialog = new ProgressDialog(this, "Uploading");
-        pickImage = findViewById(R.id.pickFromDatas);
+        pickImageFromGallery = findViewById(R.id.pickFromDatas);
         uploadImage = findViewById(R.id.pickFromGallery);
         coverPhoto = findViewById(R.id.imageCover);
 
@@ -154,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
 
                 }
                 if(currCoverPhotoUrl != null){
-                    Glide.with(getApplication()).load(currCoverPhotoUrl).into(coverPhoto);
+                            Glide.with(getApplication()).load(currCoverPhotoUrl).into(coverPhoto);
                 }
 
                 accountAge.setText(age);
@@ -181,8 +181,8 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
                 startActivityForResult(intent, 2);
             }
         });
@@ -192,6 +192,15 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        pickImageFromGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 2);
             }
         });
     }
@@ -267,7 +276,7 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
                 filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        userProfilePicture.setImageURI(resultUri);
+//                        userProfilePicture.setImageURI(resultUri);
                         Uri downloadUri = taskSnapshot.getDownloadUrl();
                         userImage.put("Cover Photo", downloadUri.toString());
                         databaseRef.child("Users").child(currentUserUid).updateChildren(userImage);
