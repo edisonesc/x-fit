@@ -13,7 +13,7 @@
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Images"
+            android:text="Photos"
             android:gravity="center"
             android:id="@+id/title"
             android:textSize="30sp"

@@ -12,6 +12,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.bumptech.glide.Glide;
 import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -101,6 +106,9 @@ public class ProfileActivity extends AppCompatActivity implements NutritionData.
         permissionManager.checkAndRequestPermissions(this);
 
 
+        RandomTransitionGenerator generator = new RandomTransitionGenerator(200000, new LinearInterpolator());
+
+        coverPhoto.setTransitionGenerator(generator);
 
 
 

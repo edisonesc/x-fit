@@ -1,6 +1,7 @@
 package com.example.edison.x_fit;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -19,8 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class HomeActivity extends AppCompatActivity {
-    private CardView mLogout, mWorkout, mNutrition, mSleep, mProfile, mSettings ;
+    private CardView mPhotos, mWorkout, mNutrition, mSleep, mProfile, mSettings ;
     private FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener authStateListener;
     private MaterialDialog materialDialog, mdExit;
     RelativeLayout relativeLayout;
     GridLayout gridLayout;
@@ -29,8 +31,22 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() != null){
+                    //Intent of the user
+                    Toast.makeText(HomeActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI();
+                }
+                else{
+                    Toast.makeText(HomeActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
         setContentView(R.layout.activity_home);
-        mLogout = findViewById(R.id.buttonLogout);
+        mPhotos = findViewById(R.id.buttonPhotos);
         uptodown = AnimationUtils.loadAnimation(this, R.anim.uptodown);
         downtoup = AnimationUtils.loadAnimation(this, R.anim.downtoup);
         relativeLayout = findViewById(R.id.relativeLayout);
@@ -42,28 +58,13 @@ public class HomeActivity extends AppCompatActivity {
         mSettings = findViewById(R.id.buttonSettings);
         relativeLayout.setAnimation(uptodown);
         gridLayout.setAnimation(downtoup);
-        mLogout.setOnClickListener(new View.OnClickListener() {
+        mPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                       materialDialog = new MaterialDialog(HomeActivity.this)
-
-                        .setMessage("Are you sure you want to logout?")
-                        .setPositiveButton("Yes", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                mAuth.signOut();
-                                updateUI();
-                            }
-                        }).setNegativeButton("Cancel", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                materialDialog.dismiss();
-                            }
-                        });
-               materialDialog.show();
+                Intent intent = new Intent(HomeActivity.this, UserImageActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -79,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         mSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, UserImageActivity.class);
+                Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
