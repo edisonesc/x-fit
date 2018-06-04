@@ -52,7 +52,7 @@ import java.util.Map;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements NutritionData.OnFragmentInteractionListener{
     private DatabaseReference databaseRef;
     private FirebaseAuth mAuth;
     private String currentUserUid;
@@ -146,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 }
                 if(currCoverPhotoUrl != null){
-                    Glide.with(getApplication()).load(currProfilePicUrl).into(coverPhoto);
+                    Glide.with(getApplication()).load(currCoverPhotoUrl).into(coverPhoto);
                 }
 
                 accountAge.setText(age);
@@ -303,4 +303,8 @@ public class ProfileActivity extends AppCompatActivity {
         return new DateFormatSymbols().getMonths()[month-1];
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

@@ -1,12 +1,17 @@
 package com.example.edison.x_fit;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +68,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WorkoutActivity extends AppCompatActivity {
+public class WorkoutActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, WorkoutBrowse.OnFragmentInteractionListener{
     private DatabaseReference databaseReference;
     private ArrayList<String> mWorkout = new ArrayList<>();
     private TextView showEmptyList, title, mUsername;
@@ -81,6 +86,7 @@ public class WorkoutActivity extends AppCompatActivity {
     ImageView hamburger;
     ConstraintLayout constraintLayout;
     ActionBarDrawerToggle mToggle;
+    NavigationView navigationView;
     DrawerLayout drawerLayout;
     private static final long RIPPLE_DURATION = 250;
     @Override
@@ -98,9 +104,9 @@ public class WorkoutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider)));
         mUser = mAuth.getCurrentUser();
-
         title = getWindow().getDecorView().findViewById(R.id.titleWorkout);
-
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         title.setTypeface(EasyFonts.ostrichBlack(this));
 //        animator = new SlideInLeftAnimator(new OvershootInterpolator(1f));
 //        recyclerView.setItemAnimator(animator);
@@ -113,6 +119,8 @@ public class WorkoutActivity extends AppCompatActivity {
         mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,R.string.close){
             @Override
             public void onDrawerOpened(View drawerView) {
+                navigationView.bringToFront();
+                navigationView.requestLayout();
                 Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
                 hamburger.startAnimation(rotate);
                 mUsername = findViewById(R.id.currentUsername);
@@ -343,4 +351,43 @@ public class WorkoutActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        drawerLayout.closeDrawers();
+        android.support.v4.app.Fragment fragment = new WorkoutBrowse();
+        if(id == R.id.customWorkout){
+           //fragment = new NutritionData();
+
+        }
+        else if(id == R.id.progressWorkout){
+            Toast.makeText(mContext, "CLCICKE PRogress workout", Toast.LENGTH_SHORT).show();
+        }
+        else  if(id == R.id.myWorkouts){
+            Toast.makeText(mContext, "YOUR WORKOUTs", Toast.LENGTH_SHORT).show();
+        }
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        ViewPager viewPager = findViewById(R.id.my_pager);
+        viewPager.removeAllViews();
+//        fragmentTransaction.add(R.id.my_pager, fragment);
+        fragmentTransaction.replace(R.id.my_pager, fragment);
+        fragmentTransaction.commit();
+
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawerlayout);
+        drawerLayout.closeDrawer(Gravity.START);
+        return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
